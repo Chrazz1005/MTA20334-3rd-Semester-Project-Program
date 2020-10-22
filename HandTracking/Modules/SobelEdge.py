@@ -1,19 +1,21 @@
 
 import cv2
 import numpy as np
+from HandTracking.Modules.GaussianBlur import *
 
 class SobelEdge:
     __img = 0
     gxKernelArray = np.array(([-1, 0, 1], [-2, 0, 2], [-1, 0, 1]), np.float32)
     gyKernelArray = np.array(([1, 2, 1], [0, 0, 0], [-1, -2, -1]), np.float32)
-
+    gB = GaussianBlur
 
     def __init__(self, img):
-        self.__img = img
+        self.__img = self.gB.gaussian_blur(img)
 
 
     def detectionLoop(self):
         n, m, d = self.__img.shape
+
 
         edge_img = np.zeros_like(self.__img)
 
@@ -32,6 +34,8 @@ class SobelEdge:
                 edge_img[row, col] = [edge_score] * 3
 
         edge_img = edge_img / edge_img.max()
+
+
 
         return edge_img
 
