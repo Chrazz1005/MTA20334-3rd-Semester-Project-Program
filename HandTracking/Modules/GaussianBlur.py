@@ -3,30 +3,32 @@ import cv2
 import math
 
 
-#######################  Indtil vi får lavet vores egen låner jeg lige Andreas'  ########################
-class GaussianBlur:
+def meanFilter(img):
+    kernelMean = [1 / 3, 1 / 3, 1 / 3]
+    kernelSize = len(kernelMean)
+    kernelRadius = int(kernelSize/2)
 
-    def get_gaussian_kernel(kernel_size, std):
-        # Gaussian formular:
-        # 1/(2*pi*o*o)*e^(-((x*x+y*y)/(2*o*o)))
-        # o = std
-        kernel = np.zeros(np.asarray([kernel_size, kernel_size]))
-        kernel_radius = kernel_size // 2
-        for index_x in range(kernel_size):
-            x = index_x - kernel_radius
-            for index_y in range(kernel_size):
-                y = index_y - kernel_radius
-                kernel[index_x][index_y] = (
-                            1 / (2 * math.pi * std ** 2) * math.exp(-((x ** 2 + y ** 2) / (2 * std ** 2))))
-        return np.asarray(kernel)
+    inputImg = img
+    outputImg = np.zeros_like(inputImg)
 
-    def gaussian_blur(img, kernel_size=3):
-        assert not kernel_size % 2 == 0, "Kernel size must be odd number"
-        kernel = GaussianBlur.get_gaussian_kernel(kernel_size, kernel_size / 6)
-        output = cv2.filter2D(img, -1, kernel)
-        return np.asarray(output, dtype=np.uint8)
+    for x in range(len(outputImg) - 2 * kernelRadius):
+        total = 0
+        for kernel_x, weight in enumerate(kernelMean):
+            total += inputImg[x + kernel_x] * weight
+        outputImg[x] = total/sum(kernelMean)
+    return outputImg
 
+def gaussFilter(img):
+    kernelGauss = [1 / 4, 1 / 2, 1 / 4]
+    kernelSize = len(kernelGauss)
+    kernelRadius = int(kernelSize / 2)
 
+    inputImg = img
+    outputImg = np.zeros_like(inputImg)
 
-
-
+    for x in range(len(outputImg) - 2 * kernelRadius):
+        total = 0
+        for kernel_x, weight in enumerate(kernelGauss):
+            total += inputImg[x + kernel_x] * weight
+        outputImg[x] = total / sum(kernelGauss)
+    return outputImg
