@@ -10,7 +10,7 @@ class SobelEdge:
 
 
     def __init__(self, img):
-        self.__img = self.gB.gaussian_blur(img)
+        self.__img = gaussFilter(img)
 
 
     def detectionLoop(self):

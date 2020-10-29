@@ -5,6 +5,9 @@ from HandTracking.Modules.SobelEdge import *
 from HandTracking.GrassFire import *
 
 cap = cv2.VideoCapture(0)
+#
+# cameraHandler = CameraHandler(cap)
+# frames = cameraHandler.grabFrame()
 
 cameraHandler = CameraHandler(cap)
 frames = cameraHandler.grabFrame()
