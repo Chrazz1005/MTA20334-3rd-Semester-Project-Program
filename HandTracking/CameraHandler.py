@@ -12,7 +12,7 @@ class CameraHandler:
         self.__cap = capture
 
     def grabFrame(self):
-        fps = self.__cap.get(cv2.CAP_PROP_FPS)  # Gets the frames per second
+
         frames = []
 
         success, image = self.__cap.read()
@@ -31,7 +31,7 @@ class CameraHandler:
 
             print('Read a new frame: ', success)
             count += 1
-            print('fps', fps)
+
             time.sleep(5)
             print('length of frames array', len(frames))
 

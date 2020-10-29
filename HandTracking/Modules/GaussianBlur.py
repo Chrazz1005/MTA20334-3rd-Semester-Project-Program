@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import math
 
+
 def meanFilter(img):
     kernelMean = [1 / 3, 1 / 3, 1 / 3]
     kernelSize = len(kernelMean)
@@ -16,6 +17,7 @@ def meanFilter(img):
             total += inputImg[x + kernel_x] * weight
         outputImg[x] = total / sum(kernelMean)
     return outputImg
+
 
 # def get_gaussian_kernel(kernel_size, std):   ### Andreas' kerneludregner
 #     # Gaussian formular:
@@ -33,8 +35,8 @@ def meanFilter(img):
 
 def gaussFilter(img):
     kernelGauss = np.asarray([[1, 2, 1],
-                             [2, 4, 2],
-                             [1, 2, 1]]) * 1/16
+                              [2, 4, 2],
+                              [1, 2, 1]]) * 1 / 16
 
     # sigma = (kernelSize - 1) / 6
     #
@@ -44,7 +46,7 @@ def gaussFilter(img):
     kernelRadius = int(kernelSize / 2)
 
     inputImg = img
-    outputImg = np.zeros_like(inputImg )
+    outputImg = np.zeros_like(inputImg)
 
     for x in range(len(outputImg) - 2 * kernelRadius):
         total = 0
