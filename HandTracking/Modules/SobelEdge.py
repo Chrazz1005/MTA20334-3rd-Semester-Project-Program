@@ -7,7 +7,7 @@ class SobelEdge:
     __img = 0
     gxKernelArray = np.array(([-1, 0, 1], [-2, 0, 2], [-1, 0, 1]), np.float32)
     gyKernelArray = np.array(([1, 2, 1], [0, 0, 0], [-1, -2, -1]), np.float32)
-    gB = GaussianBlur
+
 
     def __init__(self, img):
         self.__img = self.gB.gaussian_blur(img)
