@@ -7,10 +7,6 @@ class GrassFire:
     img_height = img.shape[0]  # Shape: 0 = height, 1 = width, 2 = color
     img_width = img.shape[1]
 
-    white = 255
-    gray = 150
-    black = 0
-
     blob_number = 1
 
     queue = []
@@ -33,7 +29,7 @@ class GrassFire:
                 if len(self.queue) == 0:
 
                     # If a white pixel is found, start grass-fire search
-                    if current_value == self.white and current_pos not in self.white_pixels:
+                    if current_value != 0 and current_pos not in self.white_pixels:
                         self.white_pixels.append(current_pos)
                         print("\nFound new BLOB at:", current_pos)
 
