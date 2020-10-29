@@ -4,9 +4,9 @@ from HandTracking.CameraHandler import *
 from HandTracking.Modules.SobelEdge import *
 
 cap = cv2.VideoCapture(0)
-
-cameraHandler = CameraHandler(cap)
-frames = cameraHandler.grabFrame()
+#
+# cameraHandler = CameraHandler(cap)
+# frames = cameraHandler.grabFrame()
 
 frame = cv2.imread('a.jpg', cv2.IMREAD_COLOR)
 sobelEdge = SobelEdge(frame)
