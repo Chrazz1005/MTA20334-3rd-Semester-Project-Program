@@ -1,4 +1,5 @@
 
+
 class Node:
     def __init__(self, imagedata):
         self.imagedata = imagedata
@@ -43,18 +44,19 @@ def listprint(self):
         printval = printval.nextimg
 
 list1 = CameraQueue()
-list1.frontimg = Node("Test")
-e2 = Node("Test2")
-e3 = Node("Test3")
-
-#Linking first node to second node.
-list1.frontimg.nextimg = e2
-
-#Linking second Node to third node
-e2.nextimg = e3
-
-
-CameraQueue.DeQueingNode(list1)
+CameraQueue.QueuingNode(list1,"test2")
+#list1.frontimg = Node("Test")
+# e2 = Node("Test2")
+# e3 = Node("Test3")
+#
+# #Linking first node to second node.
+# list1.frontimg.nextimg = e2
+#
+# #Linking second Node to third node
+# e2.nextimg = e3
+#
+#
+# CameraQueue.DeQueingNode(list1)
 listprint(list1)
 
 
