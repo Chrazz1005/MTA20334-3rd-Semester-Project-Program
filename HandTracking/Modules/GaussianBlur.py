@@ -3,7 +3,7 @@ import cv2
 import math
 
 
-def meanFilter(img):
+def meanFilter(img):  ##primitive 1D averaging filter
     kernelMean = [1 / 3, 1 / 3, 1 / 3]
     kernelSize = len(kernelMean)
     kernelRadius = int(kernelSize / 2)
@@ -16,6 +16,22 @@ def meanFilter(img):
         for kernel_x, weight in enumerate(kernelMean):
             total += inputImg[x + kernel_x] * weight
         outputImg[x] = total / sum(kernelMean)
+    return outputImg
+
+
+def primitiveGauss(img):  # very primitive weighted averaging
+    kernelG = [1 / 3, 2 / 3, 1 / 3]
+    kernelSize = len(kernelG)
+    kernelRadius = int(kernelSize / 2)
+
+    inputImg = img
+    outputImg = np.zeros_like(inputImg)
+
+    for x in range(len(outputImg) - 2 * kernelRadius):
+        total = 0
+        for kernel_x, weight in enumerate(kernelG):
+            total += inputImg[x + kernel_x] * weight
+        outputImg[x] = total / sum(kernelG)
     return outputImg
 
 
@@ -33,39 +49,53 @@ def meanFilter(img):
 #                         1 / (2 * math.pi * std ** 2) * math.exp(-((x ** 2 + y ** 2) / (2 * std ** 2))))
 #     return np.asarray(kernel)
 
-def gaussFilter(img):
-    kernelGauss = np.asarray([[1, 2, 1],
-                              [2, 4, 2],
-                              [1, 2, 1]]) * 1 / 16
-
-    kernelGaussx5 = np.asarray([[1, 4, 7, 4, 1],
-                                [4, 16, 26, 16, 4],
-                                [7, 26, 41, 26, 7], [4, 16, 26, 16, 4], [1, 4, 7, 4, 1]]) * 1 / 273
-
-    # sigma = (kernelSize - 1) / 6
-    #
-    # kernelGauss = get_gaussian_kernel(kernelSize, sigma)
-
-    kernelSize = len(kernelGauss)
-    kernelRadius = int(kernelSize / 2)
-
-    inputImg = img
-    outputImg = np.zeros_like(inputImg)
-
-    for x in range(len(outputImg) - 2 * kernelRadius):
-        total = 0
-        for kernel_x, weight in enumerate(kernelGauss):
-            total += inputImg[x + kernel_x] * weight
-        outputImg[x] = total / sum(kernelGauss)
-    return outputImg
+# def matrixGauss(img):
+#     kernelGaussx3 = np.asarray([[1, 2, 1],
+#                                 [2, 4, 2],
+#                                 [1, 2, 1]])
+#
+#     kernelGaussx5 = np.array([[1, 4, 7, 4, 1],
+#                               [4, 16, 26, 16, 4],
+#                               [7, 26, 41, 26, 7],
+#                               [4, 16, 26, 16, 4],
+#                               [1, 4, 7, 4, 1]])
+#
+#     kernelSize = len(kernelGaussx5)
+#
+#     kernelRadius = math.floor(kernelSize / 2)
+#
+#     inputImg = img
+#     outputImg = np.zeros_like(inputImg)
+#     # outputImg = np.array([[np.zeros(inputImg.shape[0] - 2 * kernelRadius)], [np.zeros(inputImg.shape[1] - 2 * kernelRadius)]])
+#     print(kernelGaussx5)
+#     print(outputImg.shape)
+#     print(outputImg.size)
+#
+#     for x in range(outputImg.shape[0]):
+#         for y in range(outputImg.shape[1]):
+#
+#             inputSlice = inputImg[y:y + kernelSize][x:x + kernelSize]
+#             outputImg[y][x] = sum(inputSlice * kernelGaussx5) / sum(kernelGaussx5)
+#
+#     return outputImg
 
 
 if __name__ == '__main__':
-    img = cv2.imread('fstretch.jpg')
+    img = cv2.imread('fstretch.jpg', 0)
+    img2 = cv2.imread('handTest.png', 0)
 
-    gaussImg = gaussFilter(img)
+    # gaussImg = gaussFilter(img)
+    # meanImg2 = meanFilter(img2)
 
-    cv2.imshow('Normal', img)
-    cv2.imshow('Gauss', gaussImg)
+    # matrixG = matrixGauss(img2)
+    mean = meanFilter(img2)
+    gauss = primitiveGauss(img2)
+    # cv2.imshow('Gauss?', gaussImg)
+    # cv2.imshow('mean', meanImg2)
+    cv2.imshow('mean', mean)
+    cv2.imshow('gauss', gauss)
+    cv2.imshow('Normal', img2)
+    cv2.imshow('matrix', img2)
+    # cv2.imshow('Gauss', gaussImg)
     cv2.waitKey()
     cv2.destroyAllWindows()
