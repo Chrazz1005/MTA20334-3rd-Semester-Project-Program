@@ -38,6 +38,10 @@ def gaussFilter(img):
                               [2, 4, 2],
                               [1, 2, 1]]) * 1 / 16
 
+    kernelGaussx5 = np.asarray([[1, 4, 7, 4, 1],
+                                [4, 16, 26, 16, 4],
+                                [7, 26, 41, 26, 7], [4, 16, 26, 16, 4], [1, 4, 7, 4, 1]]) * 1 / 273
+
     # sigma = (kernelSize - 1) / 6
     #
     # kernelGauss = get_gaussian_kernel(kernelSize, sigma)
@@ -54,3 +58,14 @@ def gaussFilter(img):
             total += inputImg[x + kernel_x] * weight
         outputImg[x] = total / sum(kernelGauss)
     return outputImg
+
+
+if __name__ == '__main__':
+    img = cv2.imread('fstretch.jpg')
+
+    gaussImg = gaussFilter(img)
+
+    cv2.imshow('Normal', img)
+    cv2.imshow('Gauss', gaussImg)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
