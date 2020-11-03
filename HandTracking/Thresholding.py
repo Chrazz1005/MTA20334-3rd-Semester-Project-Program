@@ -27,11 +27,12 @@ class Thresholding:
                     self.outputImage[y, x] = 0
 
 
-thresh = Thresholding()
+if __name__ == '__main__':
+    thresh = Thresholding()
 
-thresh.binarize(thresh.inputImage)
-cv2.imshow("Hand Spread", thresh.inputImage)
-cv2.imshow("Hand Spread Binary", thresh.outputImage)
+    thresh.binarize(thresh.inputImage)
+    cv2.imshow("Hand Spread", thresh.inputImage)
+    cv2.imshow("Hand Spread Binary", thresh.outputImage)
 
-print("Program Execution Time: %s" % round(time.time() - thresh.startTime), "seconds")
-cv2.waitKey(0)
+    print("Program Execution Time: %s" % round(time.time() - thresh.startTime), "seconds")
+    cv2.waitKey(0)
