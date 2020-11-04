@@ -2,27 +2,23 @@ import cv2
 
 
 class GrassFire:
+    def __init__(self, img):
+        self.img = img
+        self.img_height = self.img.shape[0]  # 0 = height
+        self.img_width = self.img.shape[1]  # 1 = width
 
-    def __init__(self):
-        pass
+        self.list_length = self.img_width * self.img_height  # total number of pixels in image
 
-    img = cv2.imread("binaryHand.png", 0)  # 0 = grayscale
+        self.blob_number = 0  # assigns a number to each blob
+        self.output_list = [[0] * self.img_height for i in range(0, self.img_width)]  # height x width list of zeros
 
-    img_height = img.shape[0]   # 0 = height
-    img_width = img.shape[1]    # 1 = width
-
-    list_length = img_width * img_height # total number of pixels in image
-
-    blob_number = 0 # assigns a number to each blob
-    output_list = [[0] * img_height for i in range(0, img_width)] # height x width list of zeros
-
-    queue = []
-    white_pixels = []   # contains coordinates of each white pixel
-    black_pixels = []   # contains coordinates of each black pixel
-    blob_number_greatest = 0      # number of the greatest blob
+        self.queue = []
+        self.white_pixels = []  # contains coordinates of each white pixel
+        self.black_pixels = []  # contains coordinates of each black pixel
+        self.blob_number_greatest = 0  # number of the greatest blob
 
 
-    def grassFire(self, img):
+    def grassFire(self):
 
         for y in range(0, self.img_height):
             for x in range(0, self.img_width):
@@ -33,7 +29,7 @@ class GrassFire:
                 pos3_coordinates = [current_pos[0], current_pos[1] - 1]  # [y, x - 1]
                 pos4_coordinates = [current_pos[0] - 1, current_pos[1]]  # [y - 1, x]
 
-                current_value = img[y, x]
+                current_value = self.img[y, x]
 
                 # If queue is empty, search for new blobs.
                 if len(self.queue) == 0:
@@ -48,7 +44,7 @@ class GrassFire:
                         # Grass-fire search begins
                         # If x < image width
                         if current_pos[1] < self.img_width-1:
-                            pos1_value = img[y, x + 1]  # px value to the right
+                            pos1_value = self.img[y, x + 1]  # px value to the right
                             print("Searching east...")
                             if pos1_value != 0 and pos1_coordinates not in self.white_pixels:
                                 print("White pixel detected at position 1: (y, x)", pos1_coordinates)
@@ -64,7 +60,7 @@ class GrassFire:
                             print("East is out of bounds.")
 
                         if current_pos[0] < self.img_height-1:
-                            pos2_value = img[y + 1, x]  # px value below
+                            pos2_value = self.img[y + 1, x]  # px value below
                             print("Searching south...")
                             if pos2_value != 0 and pos2_coordinates not in self.white_pixels:
                                 print("White pixel detected at position 2: (y, x)", pos2_coordinates)
@@ -80,7 +76,7 @@ class GrassFire:
                             print("South is out of bounds.")
 
                         if current_pos[1] > 0:
-                            pos3_value = img[y, x - 1]  # px value to the left
+                            pos3_value = self.img[y, x - 1]  # px value to the left
                             print("Searching west...")
                             # If not black and not already found:
                             if pos3_value != 0 and pos3_coordinates not in self.white_pixels:
@@ -97,7 +93,7 @@ class GrassFire:
                             print("West is out of bounds.")
 
                         if current_pos[0] > 0:
-                            pos4_value = img[y - 1, x]  # px value above
+                            pos4_value = self.img[y - 1, x]  # px value above
                             print("Searching north...")
                             if pos4_value != 0 and pos4_coordinates not in self.white_pixels:
                                 print("White pixel detected at position 4: (y, x)", pos4_coordinates)
@@ -124,7 +120,7 @@ class GrassFire:
                     pos3_coordinates = [current_pos[0], current_pos[1] - 1]  # [y, x - 1]
                     pos4_coordinates = [current_pos[0] - 1, current_pos[1]]  # [y - 1, x]
 
-                    current_value = img[y, x]
+                    current_value = self.img[y, x]
 
 
                     print("\nQueue:", self.queue)
@@ -134,7 +130,7 @@ class GrassFire:
                     # Grass-fire search
                     # If x < image width
                     if current_pos[1] < self.img_width-1:
-                        pos1_value = img[pos1_coordinates[0], pos1_coordinates[1]]  # px value to the right
+                        pos1_value = self.img[pos1_coordinates[0], pos1_coordinates[1]]  # px value to the right
                         print("Searching east...")
                         if pos1_value != 0 and pos1_coordinates not in self.white_pixels:
                             print("White pixel detected at position 1: (y, x)", pos1_coordinates)
@@ -150,7 +146,7 @@ class GrassFire:
                         print("East is out of bounds.")
 
                     if current_pos[0] < self.img_height-1:
-                        pos2_value = img[pos2_coordinates[0], pos2_coordinates[1]]  # px value below
+                        pos2_value = self.img[pos2_coordinates[0], pos2_coordinates[1]]  # px value below
                         print("Searching south...")
                         if pos2_value != 0 and pos2_coordinates not in self.white_pixels:
                             print("White pixel detected at position 2: (y, x)", pos2_coordinates)
@@ -166,7 +162,7 @@ class GrassFire:
                         print("South is out of bounds.")
 
                     if current_pos[1] > 0:
-                        pos3_value = img[pos3_coordinates[0], pos3_coordinates[1]]  # px value to the left
+                        pos3_value = self.img[pos3_coordinates[0], pos3_coordinates[1]]  # px value to the left
                         print("Searching west...")
                         # If not black and not already found:
                         if pos3_value != 0 and pos3_coordinates not in self.white_pixels:
@@ -183,7 +179,7 @@ class GrassFire:
                         print("West is out of bounds.")
 
                     if current_pos[0] > 0:
-                        pos4_value = img[pos4_coordinates[0], pos4_coordinates[1]]  # px value above
+                        pos4_value = self.img[pos4_coordinates[0], pos4_coordinates[1]]  # px value above
                         print("Searching north...")
                         if pos4_value != 0 and pos4_coordinates not in self.white_pixels:
                             print("White pixel detected at position 4: (y, x)", pos4_coordinates)
@@ -243,7 +239,7 @@ class GrassFire:
 
     # recolors the image based on the binary output list, such that only the greatest blob remains.
     def outputImage(self):
-        # img[y, x] = pixel value, 0 or 255
+        # self.img[y, x] = pixel value, 0 or 255
         # self.output_list[y][x] = value in output list, 0 or 1
 
         #searches through the image image.
@@ -258,7 +254,7 @@ class GrassFire:
 
 
     def startGrassFire(self):
-        self.grassFire(self.img)
+        self.grassFire()
         self.greatestBlob()
         self.outputList()
         self.outputImage()

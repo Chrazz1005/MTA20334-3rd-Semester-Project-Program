@@ -11,7 +11,7 @@ class HistogramProjection:
     def splitImage(self):
         r, g, b = cv2.split(self.img)
 
-        return r
+        return r  # Since the image is "binary", being either 0 in all channels or 255, it doesn't matter which channel is returned
 
     def getHistogram_VProjection(self):
         "Return a list containing the sum of the pixels in each column"
@@ -52,8 +52,8 @@ class HistogramProjection:
         # print(sumColsX)
         print('length horizontal array:', len(sumColsX))
         x_axis = []
-        for i in range(0, img.shape[1]):
-            x_axis.append(i)
+        for a in range(0, img.shape[1]):
+            x_axis.append(a)
 
         plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
         plt.ylabel('Sum of white pixels in col x')
@@ -73,8 +73,30 @@ class HistogramProjection:
             else:
                 duplicates.append(list[k])
 
-        print('Duplicates;', duplicates)
+        print('Duplicates:', duplicates)
         return check
+
+    def checkRelativePos(self, list):
+        groups = {}   ##Group number : Height
+        gNumber = 0
+
+        groups[gNumber] = list[0][0]
+        for z in range(len(list)):
+            if int(list[z][1]) + 10 > list[z + 1 < len(list)][1]: ###Revise +10 alt efter hvor godt det kommer til at fungere
+                groups[gNumber] = list[z + 1 < len(list)][0]
+
+            elif list[z][1] + 10 < list[z + 1 < len(list)][1]:
+                gNumber += 1
+                groups[gNumber] = list[z + 1 < len(list)][0]
+
+        return groups
+
+
+
+    ##Vi skal gruppere hvert interval af toppunkter
+    #checke om deres "højde" er nogenlunde lige høje (if højde < 0.70*anden højde: lige høje)
+    #if lige høje tæl antal af intervaller
+    #if antal =< 3: hånd
 
 
 if __name__ == '__main__':
@@ -91,17 +113,9 @@ if __name__ == '__main__':
 
     print('Median + 10%:', horizontalDist[int(medianHori * 1.10)])
     print('Median - 10%:', horizontalDist[int(medianHori * 0.90)])
+
     toppunkter = []
-
-    print()
-
     for i in range(len(horizontalDist)):
-        # if horizontalDist[i] > horizontalDist[i - 1] and horizontalDist[i] > horizontalDist[i + 1] and horizontalDist[i] > max(horizontalDist)*0.70:
-        #     print('value:', horizontalDist[i])
-        #     print('placement:', horizontalDist.index(horizontalDist[i]))
-        #
-        #     toppunkter.append([horizontalDist[i], horizontalDist.index(horizontalDist[i])])
-
         if horizontalDist[i] > max(horizontalDist) * 0.90:
             toppunkter.append([horizontalDist[i], horizontalDist.index(horizontalDist[i])])
 
@@ -110,10 +124,19 @@ if __name__ == '__main__':
             print('-------------------------------------')
 
     sortToppunkter = ProjectDist.checkDuplicates(toppunkter)
+
     print('--------------------------------')
-    print('toppunkter unsorted', toppunkter)
+    print('Toppunkter unsorted:', toppunkter)
     print('--------------------------------')
-    print('toppunkter sorted', sortToppunkter)
+    print('Toppunkter sorted:', sortToppunkter)
+
+
+    print('--------------------------------')
+
+    groupedToppunkter = ProjectDist.checkRelativePos(sortToppunkter)
+
+    print('Grupperede toppunkter:', groupedToppunkter)
+
     cv2.imshow('img', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
