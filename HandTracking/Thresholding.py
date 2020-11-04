@@ -26,6 +26,7 @@ class Thresholding:
                     # If not, turn the pixel black
                     self.outputImage[y, x] = 0
 
+        return self.outputImage
 
 if __name__ == '__main__':
     thresh = Thresholding()
