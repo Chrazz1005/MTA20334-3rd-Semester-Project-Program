@@ -9,8 +9,7 @@ class GrassFire:
 
         self.list_length = self.img_width * self.img_height  # total number of pixels in image
 
-        self.blob_number = 0  # assigns a number to each blob
-        self.output_list = [[0] * self.img_height for i in range(0, self.img_width)]  # height x width list of zeros
+    img = cv2.imread("testImg.png", 0)  # 0 = grayscale
 
         self.queue = []
         self.white_pixels = []  # contains coordinates of each white pixel
@@ -18,7 +17,19 @@ class GrassFire:
         self.blob_number_greatest = 0  # number of the greatest blob
 
 
-    def grassFire(self):
+    blob_number = 0 # assigns a number to each blob
+    output_list = []
+
+    queue = []
+    white_pixels = []   # contains coordinates of each white pixel
+    black_pixels = []   # contains coordinates of each black pixel
+    blob_number_greatest = 0      # number of the greatest blob
+
+    def outputSize(self):
+        self.output_list = [[0] * self.img_height for i in range(0, self.img_width)] # height x width list of zeros
+        return self.output_list
+
+    def grassFire(self, img):
 
         for y in range(0, self.img_height):
             for x in range(0, self.img_width):
