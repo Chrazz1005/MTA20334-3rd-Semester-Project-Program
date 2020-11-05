@@ -30,7 +30,6 @@ class HistogramProjection:
         for i in range(0, img.shape[0]):
             x_axis.append(i)
 
-
         plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
         plt.ylabel('Sum of white pixels in row y')
         plt.title('Vertical distribution', fontsize=15)
@@ -119,34 +118,71 @@ class HistogramProjection:
 
         return sortToppunkter
 
+    def checkIfA(self, list):
+        trimmed = self.trimZeros(list)
+        bScore = 0
+
+        ##############################Fortsæt her
+
+
+
+
+
+
     def checkIfC(self, list):
         #### Karaktaristika for C;
         # - To toppunkter af relativ højde til hinanden
         # - Toppunkter af relativ højde til de omkringliggende
         # - Toppunkter er af relativ afstand til hinanden
 
-        trimmed = self.trimZeros(list)
+        trimmed = self.trimZeros(list)  # Removing 0's
+        cScore = 0
 
-        firstPoint = []
-        print('first 30%', len(trimmed) * 0.30)
-        print('first 40%', len(trimmed) * 0.40)
-        print('first 50%', len(trimmed) * 0.50)
-        print('first 80%', len(trimmed) * 0.80)
-        print('Listen', len(list))
-        print('Trimmed', len(trimmed))
+        # print('first 30%', len(trimmed) * 0.30)
+        # print('first 40%', len(trimmed) * 0.40)
+        # print('first 50%', len(trimmed) * 0.50)
+        # print('first 80%', len(trimmed) * 0.80)
+        # print('Listen', len(list))
+        # print('Trimmed', len(trimmed))
 
-        for i in range(int(len(trimmed)*0.20), len(trimmed)):
-            print('Sidste 80%:', trimmed[i])
-            if trimmed[i] == max(trimmed):
-                print('toppunktplacement', trimmed.index(trimmed[i]))
+        for i in range(0, int(len(trimmed) * 0.30)):
+            # print('Første 30%:', trimmed[i])
+            if trimmed[i] == max(trimmed[0:int(len(trimmed) * 0.30)]):
+                print('toppunktplacement:', trimmed.index(trimmed[i]))
+                lilleTop = [trimmed.index(trimmed[i]), trimmed[i]]
 
-        # for i in range(0, len(trimmed)):
-        #     if int(len(trimmed)*0.20) > trimmed[i]:
-        #         firstPoint.append(trimmed[i])
-        #
-        #
+        for i in range(int(len(trimmed) * 0.30), len(trimmed)):
+            # print('Sidste 70%:', trimmed[i])
+            if trimmed[i] == max(trimmed[int(len(trimmed) * 0.30):len(trimmed)]):
+                print('toppunktplacement:', trimmed.index(trimmed[i]))
+                storTop = [trimmed.index(trimmed[i]), trimmed[i]]
 
+        dstTops = storTop[0] - lilleTop[0]
+        dstTopsnLengthRelation = dstTops / len(trimmed)
 
+        print('Afstand mellem toppunkter:', dstTops)
+        print('Forhold mellem afstand og samlede længde:', dstTopsnLengthRelation)
+
+        heightDiffRelation = storTop[1] / lilleTop[1]
+        heightLengthRelation = storTop[1] / len(trimmed)
+
+        print('Forhold mellem højde:', heightDiffRelation)
+        print('Forhold mellem største højde ift. længde', heightLengthRelation)
+
+        if 0.30 < dstTopsnLengthRelation < 0.50:
+            cScore += 1
+            print('cScore from dstTopsnLengthRelation')
+
+        if 1.3 < heightDiffRelation < 2.0:
+            cScore += 1
+            print('cScore from heightDiffRelation')
+
+        if 160 < heightLengthRelation < 180:
+            cScore += 1
+            print('cScore from heightLengthRelation')
+
+        print('cScore:', cScore)
+        return cScore
 
 
 if __name__ == '__main__':
@@ -155,9 +191,22 @@ if __name__ == '__main__':
     imgA = cv2.imread('binary.png')
 
     ProjectDist = HistogramProjection(imgC)
-    horizontalDist = ProjectDist.getHistogram_HProjection()
+    horizontalDistC = ProjectDist.getHistogram_HProjection()
+    verticalDistC = ProjectDist.getHistogram_VProjection()
+    ProjectDist.checkIfC(verticalDistC)
+    # ProjectDist.checkIfC(horizontalDistC)
 
-    verticalDist = ProjectDist.getHistogram_VProjection()
+    # ProjectDistB = HistogramProjection(imgB)
+    # verticalB = ProjectDistB.getHistogram_HProjection()
+    # horizB = ProjectDistB.getHistogram_VProjection()
+    # ProjectDistB.checkIfC(verticalB)
+    # ProjectDistB.checkIfC(horizB)
+
+    # ProjectDistA = HistogramProjection(imgA)
+    # vertA = ProjectDistA.getHistogram_VProjection()
+    # horizA = ProjectDistA.getHistogram_HProjection()
+    # ProjectDistA.checkIfC(vertA)
+    # ProjectDistA.checkIfC(horizA)
 
     # ProjectDistA = HistogramProjection(imgA)
     # vertiDistC = ProjectDistA.getHistogram_VProjection()
@@ -167,16 +216,13 @@ if __name__ == '__main__':
     # horiDistB = ProjectDistB.getHistogram_HProjection()
     # vertiDistB = ProjectDistB.getHistogram_VProjection()
 
-    print('Median of SumColsX unsorted dataset:', verticalDist[int(len(verticalDist) / 2)])
-    print('Placement of Median:', verticalDist.index(verticalDist[int(len(verticalDist) / 2)]))
-    medianHori = verticalDist.index(verticalDist[int(len(verticalDist) / 2)])
-
-    print('Median + 10%:', verticalDist[int(medianHori * 1.10)])
-    print('Median - 10%:', verticalDist[int(medianHori * 0.90)])
-
-
-
-    ProjectDist.checkIfC(verticalDist)
+    # print('Median of SumColsX unsorted dataset:', verticalDistC[int(len(verticalDistC) / 2)])
+    # print('Placement of Median:', verticalDistC.index(verticalDistC[int(len(verticalDistC) / 2)]))
+    # medianHori = verticalDistC.index(verticalDistC[int(len(verticalDistC) / 2)])
+    #
+    # print('Median + 10%:', verticalDistC[int(medianHori * 1.10)])
+    # print('Median - 10%:', verticalDistC[int(medianHori * 0.90)])
+    # #
 
 
     cv2.imshow('C', imgC)
