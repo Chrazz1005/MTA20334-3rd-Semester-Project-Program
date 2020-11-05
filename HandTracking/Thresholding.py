@@ -39,9 +39,9 @@ if __name__ == '__main__':
     inputImage = cv2.imread("Pictures/Green_Hand_One_W_Background.png", cv2.COLOR_BGR2HSV)
     thresh = Thresholding()
 
-    thresh.binarize(inputImage)
+    binary = thresh.binarize(inputImage)
     cv2.imshow("Hand Spread", inputImage)
-    cv2.imshow("Hand Spread Binary", inputImage)
+    cv2.imshow("Hand Spread Binary", binary)
 
     print("Program Execution Time: %s" % round(time.time() - thresh.startTime), "seconds")
     cv2.waitKey(0)

@@ -19,7 +19,7 @@ class GrassFire:
 
 
     def grassFire(self):
-
+        
         for y in range(0, self.img_height):
             for x in range(0, self.img_width):
 
@@ -120,7 +120,6 @@ class GrassFire:
                     pos3_coordinates = [current_pos[0], current_pos[1] - 1]  # [y, x - 1]
                     pos4_coordinates = [current_pos[0] - 1, current_pos[1]]  # [y - 1, x]
 
-                    current_value = self.img[y, x]
 
 
                     print("\nQueue:", self.queue)
