@@ -30,6 +30,7 @@ class HistogramProjection:
         for i in range(0, img.shape[0]):
             x_axis.append(i)
 
+
         plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
         plt.ylabel('Sum of white pixels in row y')
         plt.title('Vertical distribution', fontsize=15)
@@ -63,80 +64,123 @@ class HistogramProjection:
 
         return sumColsX
 
+    def trimZeros(self, list):
+        trimmed = []
+        for i in range(0, len(list)):
+            if list[i] != 0:
+                trimmed.append(list[i])
+
+        return trimmed
+
     def checkDuplicates(self, list):
-        check = []
+        checked = []
         duplicates = []
 
         for k in range(len(list)):
-            if list[k] not in check:
-                check.append(list[k])
+            if list[k] not in checked:
+                checked.append(list[k])
             else:
                 duplicates.append(list[k])
 
-        print('Duplicates:', duplicates)
-        return check
+        # print('Duplicates:', duplicates)
+        return checked
 
     def checkRelativePos(self, list):
-        groups = {}   ##Group number : Height
+        groups = []  ##Group number : Height
         gNumber = 0
 
-        groups[gNumber] = list[0][0]
-        for z in range(len(list)):
-            if int(list[z][1]) + 10 > list[z + 1 < len(list)][1]: ###Revise +10 alt efter hvor godt det kommer til at fungere
-                groups[gNumber] = list[z + 1 < len(list)][0]
+        print('Groups pre-loop', groups)
 
-            elif list[z][1] + 10 < list[z + 1 < len(list)][1]:
+        for z in range(len(list)):
+
+            if list[z][1] < list[z + 1 < len(list)][
+                1] + 10:  #### Revise +10 alt efter hvor godt det kommer til at fungere
+                print('Groups first ifloop', groups)
+                groups.append([list[z][0], gNumber])
+
+            elif list[z][1] > list[z + 1 < len(list)][1] + 10:
                 gNumber += 1
-                groups[gNumber] = list[z + 1 < len(list)][0]
+                print('Groups second ifloop', groups)
+                groups.append([list[z][0], gNumber])
 
         return groups
 
+    def getTopXPercentile(self, list, percentile):
+        toppunkter = []
+        for i in range(len(list)):
+            if list[i] > max(list) * int(percentile / 100):
+                toppunkter.append([list[i], list.index(list[i])])
+                # print('Top 90% values:', list[i])
+                # print('-------------------------------------')
+                # print('Top 90% placement:', list.index(list[i]))
+                # print('-------------------------------------')
+
+        sortToppunkter = self.checkDuplicates(toppunkter)
+
+        return sortToppunkter
+
+    def checkIfC(self, list):
+        #### Karaktaristika for C;
+        # - To toppunkter af relativ højde til hinanden
+        # - Toppunkter af relativ højde til de omkringliggende
+        # - Toppunkter er af relativ afstand til hinanden
+
+        trimmed = self.trimZeros(list)
+
+        firstPoint = []
+        print('first 30%', len(trimmed) * 0.30)
+        print('first 40%', len(trimmed) * 0.40)
+        print('first 50%', len(trimmed) * 0.50)
+        print('first 80%', len(trimmed) * 0.80)
+        print('Listen', len(list))
+        print('Trimmed', len(trimmed))
+
+        for i in range(int(len(trimmed)*0.20), len(trimmed)):
+            print('Sidste 80%:', trimmed[i])
+            if trimmed[i] == max(trimmed):
+                print('toppunktplacement', trimmed.index(trimmed[i]))
+
+        # for i in range(0, len(trimmed)):
+        #     if int(len(trimmed)*0.20) > trimmed[i]:
+        #         firstPoint.append(trimmed[i])
+        #
+        #
 
 
-    ##Vi skal gruppere hvert interval af toppunkter
-    #checke om deres "højde" er nogenlunde lige høje (if højde < 0.70*anden højde: lige høje)
-    #if lige høje tæl antal af intervaller
-    #if antal =< 3: hånd
 
 
 if __name__ == '__main__':
-    img = cv2.imread('binaryHand.png')
+    imgB = cv2.imread('binaryB.png')
+    imgC = cv2.imread('binaryC.png')
+    imgA = cv2.imread('binary.png')
 
-    ProjectDist = HistogramProjection(img)
-
+    ProjectDist = HistogramProjection(imgC)
     horizontalDist = ProjectDist.getHistogram_HProjection()
-    # verticalDist = ProjectDist.getHistogram_VProjection()
 
-    print('Median of SumColsX unsorted dataset:', horizontalDist[int(len(horizontalDist) / 2)])
-    print('Placement of Median:', horizontalDist.index(horizontalDist[int(len(horizontalDist) / 2)]))
-    medianHori = horizontalDist.index(horizontalDist[int(len(horizontalDist) / 2)])
+    verticalDist = ProjectDist.getHistogram_VProjection()
 
-    print('Median + 10%:', horizontalDist[int(medianHori * 1.10)])
-    print('Median - 10%:', horizontalDist[int(medianHori * 0.90)])
+    # ProjectDistA = HistogramProjection(imgA)
+    # vertiDistC = ProjectDistA.getHistogram_VProjection()
+    # horiDistC = ProjectDistA.getHistogram_HProjection()
+    #
+    # ProjectDistB = HistogramProjection(imgB)
+    # horiDistB = ProjectDistB.getHistogram_HProjection()
+    # vertiDistB = ProjectDistB.getHistogram_VProjection()
 
-    toppunkter = []
-    for i in range(len(horizontalDist)):
-        if horizontalDist[i] > max(horizontalDist) * 0.90:
-            toppunkter.append([horizontalDist[i], horizontalDist.index(horizontalDist[i])])
+    print('Median of SumColsX unsorted dataset:', verticalDist[int(len(verticalDist) / 2)])
+    print('Placement of Median:', verticalDist.index(verticalDist[int(len(verticalDist) / 2)]))
+    medianHori = verticalDist.index(verticalDist[int(len(verticalDist) / 2)])
 
-            print('Top 90% value:', horizontalDist[i])
-            print('Top 90% placement:', horizontalDist.index(horizontalDist[i]))
-            print('-------------------------------------')
-
-    sortToppunkter = ProjectDist.checkDuplicates(toppunkter)
-
-    print('--------------------------------')
-    print('Toppunkter unsorted:', toppunkter)
-    print('--------------------------------')
-    print('Toppunkter sorted:', sortToppunkter)
+    print('Median + 10%:', verticalDist[int(medianHori * 1.10)])
+    print('Median - 10%:', verticalDist[int(medianHori * 0.90)])
 
 
-    print('--------------------------------')
 
-    groupedToppunkter = ProjectDist.checkRelativePos(sortToppunkter)
+    ProjectDist.checkIfC(verticalDist)
 
-    print('Grupperede toppunkter:', groupedToppunkter)
 
-    cv2.imshow('img', img)
+    cv2.imshow('C', imgC)
+    # cv2.imshow('A', imgA)
+    # cv2.imshow('B', imgB)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
