@@ -24,7 +24,7 @@ class HistogramProjection:
 
             sumColsY.append(np.sum(colY))
 
-        print(sumColsY)
+        print('Vertical distribution:', sumColsY)
         print('length vertical array:', len(sumColsY))
         x_axis = []
         for i in range(0, img.shape[0]):
@@ -49,7 +49,7 @@ class HistogramProjection:
 
             sumColsX.append(np.sum(colX))
 
-        # print(sumColsX)
+        print('Horizontal distribution:', sumColsX)
         print('length horizontal array:', len(sumColsX))
         x_axis = []
         for a in range(0, img.shape[1]):
@@ -118,16 +118,59 @@ class HistogramProjection:
 
         return sortToppunkter
 
-    def checkIfA(self, list):
-        trimmed = self.trimZeros(list)
-        bScore = 0
+    def checkIfA(self, listVert, listHori):
+        trimVert = self.trimZeros(listVert)
+        trimHori = self.trimZeros(listHori)
 
-        ##############################Fortsæt her
+        aScore = 0
+
+        lengDiff = len(trimVert) - len(trimHori)
+        lengRelation = len(trimVert) / len(trimHori)
+        print('----------------------------------------------------')
+        print('Længde af Hori', len(trimHori))
+        print('Længde af Vert', len(trimVert))
+        print('Forskel mellem Hori længde (håndbredde) og Vert længde (Håndlængde):', lengDiff)
+        print('Forhold mellem Hori længde (håndbredde) og Vert længde (Håndlængde):', lengRelation)
+        print('----------------------------------------------------')
+        print('Median of Vertical distribution:', trimVert[int(len(trimVert) / 2)])
+        print('Placement of Median:', trimVert.index(trimVert[int(len(trimVert) / 2)]))
+        print('Median:', trimVert[int(len(trimVert) / 2)])
+        print('----------------------------------------------------')
+        print('Median of Vertical distribution:', trimHori[int(len(trimHori) / 2)])
+        print('Placement of Median:', trimHori.index(trimHori[int(len(trimHori) / 2)]))
+        print('Median:', trimHori[int(len(trimHori) / 2)])
+        medianHori = trimHori[int(len(trimHori) / 2)]
+        print('----------------------------------------------------')
+        maxHeightRelation = max(trimVert) / max(trimHori)
+        print('Forhold mellem største højde i de to histrogrammer', maxHeightRelation)
+
+        print('Mean value of vertA:', np.mean(trimVert))
+        print('70% of Mean:', np.mean(trimVert) * 0.70)
+        mean70p = np.mean(trimVert) * 0.70
+        print('value 10% in', trimVert[int(len(trimVert) * 0.10)])
 
 
+        for s in range(int(len(trimVert) * 0.10), len(trimVert)): ###Denne parameter er gældene for alle tre håndtegn så den skal laves om
+            if trimVert[s] < mean70p:
+                isA = False
 
+            else:
+                isA = True
 
+        if isA == True:
+            aScore += 1
+            print('bScore from steady course throughout vertical distribution')
 
+        if medianHori > max(trimHori) * 0.80:
+            aScore += 1
+            print('bScore from median being in the top 90%')
+
+        if 1.7 < lengRelation < 2.2:
+            aScore += 1
+            print('bScore from relationship between vertical and horizontal length')
+
+        print('bScore:', aScore)
+        return aScore
 
     def checkIfC(self, list):
         #### Karaktaristika for C;
@@ -193,40 +236,20 @@ if __name__ == '__main__':
     ProjectDist = HistogramProjection(imgC)
     horizontalDistC = ProjectDist.getHistogram_HProjection()
     verticalDistC = ProjectDist.getHistogram_VProjection()
-    ProjectDist.checkIfC(verticalDistC)
-    # ProjectDist.checkIfC(horizontalDistC)
-
-    # ProjectDistB = HistogramProjection(imgB)
-    # verticalB = ProjectDistB.getHistogram_HProjection()
-    # horizB = ProjectDistB.getHistogram_VProjection()
-    # ProjectDistB.checkIfC(verticalB)
-    # ProjectDistB.checkIfC(horizB)
-
-    # ProjectDistA = HistogramProjection(imgA)
-    # vertA = ProjectDistA.getHistogram_VProjection()
-    # horizA = ProjectDistA.getHistogram_HProjection()
-    # ProjectDistA.checkIfC(vertA)
-    # ProjectDistA.checkIfC(horizA)
-
-    # ProjectDistA = HistogramProjection(imgA)
-    # vertiDistC = ProjectDistA.getHistogram_VProjection()
-    # horiDistC = ProjectDistA.getHistogram_HProjection()
-    #
-    # ProjectDistB = HistogramProjection(imgB)
-    # horiDistB = ProjectDistB.getHistogram_HProjection()
-    # vertiDistB = ProjectDistB.getHistogram_VProjection()
-
-    # print('Median of SumColsX unsorted dataset:', verticalDistC[int(len(verticalDistC) / 2)])
-    # print('Placement of Median:', verticalDistC.index(verticalDistC[int(len(verticalDistC) / 2)]))
-    # medianHori = verticalDistC.index(verticalDistC[int(len(verticalDistC) / 2)])
-    #
-    # print('Median + 10%:', verticalDistC[int(medianHori * 1.10)])
-    # print('Median - 10%:', verticalDistC[int(medianHori * 0.90)])
-    # #
 
 
-    cv2.imshow('C', imgC)
-    # cv2.imshow('A', imgA)
+    ProjectDistB = HistogramProjection(imgB)
+    verticalB = ProjectDistB.getHistogram_HProjection()
+    horizB = ProjectDistB.getHistogram_VProjection()
+
+
+    ProjectDistA = HistogramProjection(imgA)
+    vertA = ProjectDistA.getHistogram_VProjection()
+    horizA = ProjectDistA.getHistogram_HProjection()
+    
+
+    # cv2.imshow('C', imgC)
+    cv2.imshow('A', imgA)
     # cv2.imshow('B', imgB)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
