@@ -98,7 +98,6 @@ class HistogramProjection:
 
         return sortToppunkter
 
-
     def checkIfA(self, listVert, listHori):
         trimVert = self.trimZeros(listVert)
         trimHori = self.trimZeros(listHori)
@@ -123,7 +122,6 @@ class HistogramProjection:
         medianHori = trimHori[int(len(trimHori) / 2)]
         print('----------------------------------------------------')
 
-
         print('Mean value of vertA:', np.mean(trimVert))
         print('70% of Mean:', np.mean(trimVert) * 0.75)
         mean75p = np.mean(trimVert) * 0.75
@@ -134,7 +132,6 @@ class HistogramProjection:
         if 0.35 < maxHeightRelation < 0.45:
             aScore += 1
             print('aScore from relation between max heights of the two distributions')
-
 
         if medianHori > max(trimHori) * 0.98:
             aScore += 1
@@ -180,7 +177,6 @@ class HistogramProjection:
         if 25 < lenTop85cluster < 35:
             bScore += 1
             print('bScore from large cluster of toppoints')
-
 
         print('bScore:', bScore)
         return bScore
@@ -241,7 +237,7 @@ class HistogramProjection:
         print(("66% value", trimmedhori[int(len(trimmedhori) * 0.66)]))
         val66 = trimmedhori[int(len(trimmedhori) * 0.66)]
 
-        if val33 + val33*0.33 < val50 < val66:
+        if val33 + val33 * 0.33 < val50 < val66:
             cScore += 1
             print('cscore for increase in right intervals')
 
@@ -250,16 +246,16 @@ class HistogramProjection:
 
 
 if __name__ == '__main__':
-    imgB = cv2.imread('binaryB.png')
-    imgC = cv2.imread('binaryC.png')
-    imgA = cv2.imread('binary.png')
+    imgA = cv2.imread('./Binarized_Pictures/A4.png')
+    imgB = cv2.imread('./Binarized_Pictures/B1.png')
+    imgC = cv2.imread('./Binarized_Pictures/C3.png')
 
-    ProjectDistC = HistogramProjection(imgC)
-    horizontalDistC = ProjectDistC.getHistogram_HProjection()
-    verticalDistC = ProjectDistC.getHistogram_VProjection()
-    ProjectDistC.checkIfA(verticalDistC, horizontalDistC)
-    ProjectDistC.checkifB(verticalDistC, horizontalDistC)
-    ProjectDistC.checkIfC(verticalDistC, horizontalDistC)
+    ProjectDistA = HistogramProjection(imgA)
+    vertA = ProjectDistA.getHistogram_VProjection()
+    horizA = ProjectDistA.getHistogram_HProjection()
+    ProjectDistA.checkIfA(vertA, horizA)
+    ProjectDistA.checkifB(vertA, horizA)
+    ProjectDistA.checkIfC(vertA, horizA)
 
     # ProjectDistB = HistogramProjection(imgB)
     # verticalB = ProjectDistB.getHistogram_VProjection()
@@ -268,13 +264,12 @@ if __name__ == '__main__':
     # ProjectDistB.checkifB(verticalB, horizB)
     # ProjectDistB.checkIfC(verticalB, horizB)
 
-    # ProjectDistA = HistogramProjection(imgA)
-    # vertA = ProjectDistA.getHistogram_VProjection()
-    # horizA = ProjectDistA.getHistogram_HProjection()
-    # ProjectDistA.checkIfA(vertA, horizA)
-    # # ProjectDistA.checkifB(vertA, horizA)
-    # # ProjectDistA.checkIfC(vertA, horizA)
-
+    # ProjectDistC = HistogramProjection(imgC)
+    # horizontalDistC = ProjectDistC.getHistogram_HProjection()
+    # verticalDistC = ProjectDistC.getHistogram_VProjection()
+    # ProjectDistC.checkIfA(verticalDistC, horizontalDistC)
+    # ProjectDistC.checkifB(verticalDistC, horizontalDistC)
+    # ProjectDistC.checkIfC(verticalDistC, horizontalDistC)
 
     # cv2.imshow('C', imgC)
     # cv2.imshow('A', imgA)
