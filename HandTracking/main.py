@@ -14,16 +14,20 @@ if __name__ == '__main__':
 
     th = Thresholding()
 
-    frame = cv2.imread('./Pictures/Green_Hand_Four.png')
+    frame = cv2.imread('./Pictures/B4L.jpg', cv2.COLOR_BGR2HSV)
 
     binary = th.binarize(frame)
 
+    grass = GrassFire(binary)
 
-    # gf = GrassFire(binary)
-    cv2.imshow('b', binary)
-    # print(binary)
-    # gf.startGrassFire()
-    #
+    pic = grass.startGrassFire()
+    # print('pic', pic)
+    # #
+
+    gf = GrassFire(binary)
+    cv2.imshow('yes', binary)
+    cv2.imshow('b', pic)
+
 
 
     cv2.waitKey(0)

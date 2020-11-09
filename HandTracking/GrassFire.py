@@ -250,7 +250,7 @@ class GrassFire:
                 else:
                     self.output_list[y][x] = 1
 
-        print("list:\n", self.output_list)
+        #print("list:\n", self.output_list)
         # A list containing only 0's and 1's is returned.
         return self.output_list
 
@@ -267,14 +267,22 @@ class GrassFire:
                 # in the image to black.
                 if self.img[y, x] != 0 and self.output_list[y][x] == 0:
                     self.img[y, x] = 0
+        return self.img
 
         #print("image yes\n", self.img)
 
 
     def startGrassFire(self):
         self.outputSize()
+        print('Step one complete')
         self.grassFire(self.img)
+        print('Step two complete')
         self.greatestBlob()
+        print('Step three complete')
         self.outputList()
+        print('Step four complete')
         self.outputImage()
+        print('Step five complete')
 
+
+        return self.img
