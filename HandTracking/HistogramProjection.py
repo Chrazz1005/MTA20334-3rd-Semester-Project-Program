@@ -104,29 +104,20 @@ class HistogramProjection:
 
         aScore = 0
 
-        lengDiff = len(trimVert) - len(trimHori)
         lengRelation = len(trimVert) / len(trimHori)
         print('----------------------------------------------------')
-        print('Længde af Hori', len(trimHori))
-        print('Længde af Vert', len(trimVert))
-        print('Forskel mellem Hori længde (håndbredde) og Vert længde (Håndlængde):', lengDiff)
         print('Forhold mellem Hori længde (håndbredde) og Vert længde (Håndlængde):', lengRelation)
         print('----------------------------------------------------')
         print('Median of Vertical distribution:', trimVert[int(len(trimVert) / 2)])
         print('Placement of Median:', trimVert.index(trimVert[int(len(trimVert) / 2)]))
-        print('Median:', trimVert[int(len(trimVert) / 2)])
         print('----------------------------------------------------')
         print('Median of Horizontal distribution:', trimHori[int(len(trimHori) / 2)])
         print('Placement of Median:', trimHori.index(trimHori[int(len(trimHori) / 2)]))
-        print('Median:', trimHori[int(len(trimHori) / 2)])
         medianHori = trimHori[int(len(trimHori) / 2)]
         print('----------------------------------------------------')
-
         print('Mean value of vertA:', np.mean(trimVert))
         print('70% of Mean:', np.mean(trimVert) * 0.75)
-        mean75p = np.mean(trimVert) * 0.75
         print('value 10% in', trimVert[int(len(trimVert) * 0.10)])
-
         maxHeightRelation = max(trimVert) / max(trimHori)
         print('Forhold mellem største højde i de to histrogrammer', maxHeightRelation)
         if 0.35 < maxHeightRelation < 0.45:
@@ -165,18 +156,22 @@ class HistogramProjection:
 
         topLenRelation = max(trimmedHori) / len(
             trimmedHori)  ###Relation between the toppoint and the length of the horizontal distribution
-        if 400 < topLenRelation < 440:
+        if 280 < topLenRelation < 310:
             bScore += 1
             print('bScore from relation between the toppoint and the length of the horizontal distribution')
 
-        print('top90 cluster', self.getTopXPercentile(trimmedHori, 85))
-        print('len top90 cluster', len(self.getTopXPercentile(trimmedHori, 85)))
+
+        ######################## Du mangler lige en sidste til B ################
+
+        maxHeightRelation = max(trimmedVert) / max(trimmedHori)
+        if 0.6 <= maxHeightRelation <= 0.8:
+            bScore += 1
+            print('bScore from relation between max values in the two distributions')
+
+        print('top85 cluster', self.getTopXPercentile(trimmedHori, 85))
+        print('len top85 cluster', len(self.getTopXPercentile(trimmedHori, 85)))
         top85cluster = self.getTopXPercentile(trimmedHori, 85)
         lenTop85cluster = len(top85cluster)
-
-        if 25 < lenTop85cluster < 35:
-            bScore += 1
-            print('bScore from large cluster of toppoints')
 
         print('bScore:', bScore)
         return bScore
@@ -194,20 +189,26 @@ class HistogramProjection:
         for i in range(0, int(len(trimmedvert) * 0.30)):
             # print('Første 30%:', trimmedvertvert[i])
             if trimmedvert[i] == max(trimmedvert[0:int(len(trimmedvert) * 0.30)]):
-                print('toppunktplacement:', trimmedvert.index(trimmedvert[i]))
+                # print('Første 30% toppunktplacement:', trimmedvert.index(trimmedvert[i]))
+                # print('Første 30% toppunkt valye:', trimmedvert[i])
                 lilleTop = [trimmedvert.index(trimmedvert[i]), trimmedvert[i]]
 
         for i in range(int(len(trimmedvert) * 0.30), len(trimmedvert)):
-            # print('Sidste 70%:', trimmedvert[i])
+
             if trimmedvert[i] == max(trimmedvert[int(len(trimmedvert) * 0.30):len(trimmedvert)]):
-                print('toppunktplacement:', trimmedvert.index(trimmedvert[i]))
+                # print('Sidste 70 % toppunktplacement:', trimmedvert.index(trimmedvert[i]))
+                # print('Sidste 70 % toppunkt value:', trimmedvert[i])
+
                 storTop = [trimmedvert.index(trimmedvert[i]), trimmedvert[i]]
 
         dstTops = storTop[0] - lilleTop[0]
         dstTopsnLengthRelation = dstTops / len(trimmedvert)
-
+        topRelation = storTop[0] / lilleTop[0]
+        print('stortop', storTop)
+        print('lilletop', lilleTop)
         print('Afstand mellem toppunkter:', dstTops)
         print('Forhold mellem afstand og samlede længde:', dstTopsnLengthRelation)
+        print('Forhold mellem afstand af toppunkter:', topRelation)
 
         heightDiffRelation = storTop[1] / lilleTop[1]
         heightLengthRelation = storTop[1] / len(trimmedvert)
@@ -215,15 +216,15 @@ class HistogramProjection:
         print('Forhold mellem højde:', heightDiffRelation)
         print('Forhold mellem største højde ift. længde', heightLengthRelation)
 
-        if 0.30 < dstTopsnLengthRelation < 0.50:
+        if 0.50 < dstTopsnLengthRelation < 0.75:
             cScore += 1
             print('cScore from dstTopsnLengthRelation')
 
-        if 1.3 < heightDiffRelation < 2.0:
+        if 1.8 < heightDiffRelation < 2.2:
             cScore += 1
             print('cScore from heightDiffRelation')
 
-        if 160 < heightLengthRelation < 180:
+        if 240 < heightLengthRelation < 260:
             cScore += 1
             print('cScore from heightLengthRelation')
 
@@ -237,33 +238,63 @@ class HistogramProjection:
         print(("66% value", trimmedhori[int(len(trimmedhori) * 0.66)]))
         val66 = trimmedhori[int(len(trimmedhori) * 0.66)]
 
-        if val33 + val33 * 0.33 < val50 < val66:
+        if val33 + val33 * 0.25 < val50 > val66 + val66 * 0.25:
             cScore += 1
-            print('cscore for increase in right intervals')
+            print('cScore for increase and decrease in right intervals')
+
+        maxHeightRelation = max(trimmedvert) / max(trimmedhori)
+        print('Forhold mellem største højde i de to histrogrammer', maxHeightRelation)
+        if 1.1 < maxHeightRelation < 1.4:
+            cScore += 1
+            print('cScore from relation between max heights of the two distributions')
 
         print('cScore:', cScore)
         return cScore
 
 
 if __name__ == '__main__':
-    imgA = cv2.imread('./Binarized_Pictures/A4.png')
-    imgB = cv2.imread('./Binarized_Pictures/B1.png')
-    imgC = cv2.imread('./Binarized_Pictures/C3.png')
+    imgA = cv2.imread('./PicsEval/A5B.jpg')
+    imgB = cv2.imread('./PicsEval/B3B.jpg')
+    imgB2 = cv2.imread('./PicsEval/B4B.jpg')
+    imgB3 = cv2.imread('./PicsEval/B6B.jpg')
+    imgC = cv2.imread('./PicsEval/C4B.jpg')
+    imgC2 = cv2.imread('./PicsEval/C6B.jpg')
 
-    ProjectDistA = HistogramProjection(imgA)
-    vertA = ProjectDistA.getHistogram_VProjection()
-    horizA = ProjectDistA.getHistogram_HProjection()
-    ProjectDistA.checkIfA(vertA, horizA)
-    ProjectDistA.checkifB(vertA, horizA)
-    ProjectDistA.checkIfC(vertA, horizA)
+    # ProjectDistA = HistogramProjection(imgA)
+    # vertA = ProjectDistA.getHistogram_VProjection()
+    # horizA = ProjectDistA.getHistogram_HProjection()
+    # ProjectDistA.checkIfA(vertA, horizA)
+    # ProjectDistA.checkifB(vertA, horizA)
+    # ProjectDistA.checkIfC(vertA, horizA)
 
-    # ProjectDistB = HistogramProjection(imgB)
-    # verticalB = ProjectDistB.getHistogram_VProjection()
-    # horizB = ProjectDistB.getHistogram_HProjection()
-    # ProjectDistB.checkIfA(verticalB, horizB)
-    # ProjectDistB.checkifB(verticalB, horizB)
-    # ProjectDistB.checkIfC(verticalB, horizB)
+    ProjectDistB = HistogramProjection(imgB)
+    verticalB = ProjectDistB.getHistogram_VProjection()
+    horizB = ProjectDistB.getHistogram_HProjection()
+    ProjectDistB.checkIfA(verticalB, horizB)
+    ProjectDistB.checkifB(verticalB, horizB)
+    ProjectDistB.checkIfC(verticalB, horizB)
 
+    ProjectDistB = HistogramProjection(imgB2)
+    verticalB = ProjectDistB.getHistogram_VProjection()
+    horizB = ProjectDistB.getHistogram_HProjection()
+    ProjectDistB.checkIfA(verticalB, horizB)
+    ProjectDistB.checkifB(verticalB, horizB)
+    ProjectDistB.checkIfC(verticalB, horizB)
+
+    ProjectDistB = HistogramProjection(imgB3)
+    verticalB = ProjectDistB.getHistogram_VProjection()
+    horizB = ProjectDistB.getHistogram_HProjection()
+    ProjectDistB.checkIfA(verticalB, horizB)
+    ProjectDistB.checkifB(verticalB, horizB)
+    ProjectDistB.checkIfC(verticalB, horizB)
+
+    # ProjectdistC2 = HistogramProjection(imgC2)
+    # horidistC2 = ProjectdistC2.getHistogram_HProjection()
+    # vertidistC2 = ProjectdistC2.getHistogram_VProjection()
+    # ProjectdistC2.checkIfA(vertidistC2, horidistC2)
+    # ProjectdistC2.checkifB(vertidistC2, horidistC2)
+    # ProjectdistC2.checkIfC(vertidistC2, horidistC2)
+    #
     # ProjectDistC = HistogramProjection(imgC)
     # horizontalDistC = ProjectDistC.getHistogram_HProjection()
     # verticalDistC = ProjectDistC.getHistogram_VProjection()

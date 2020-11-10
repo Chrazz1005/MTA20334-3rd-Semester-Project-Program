@@ -13,20 +13,20 @@ if __name__ == '__main__':
 
     th = Thresholding()
 
-    frame = cv2.imread('./PicsEval/C2.jpg', cv2.COLOR_BGR2HSV)
+    frame = cv2.imread('./PicsEval/A1.jpg', cv2.COLOR_BGR2HSV)
 
     binary = th.binarize(frame)
-
-    grass = GrassFire(binary)
-
-    pic = grass.startGrassFire()
-    # print('pic', pic)
+    #
+    # grass = GrassFire(binary)
+    #
+    # pic = grass.startGrassFire()
+    # # print('pic', pic)
+    # # #
     # #
-
-    gf = GrassFire(binary)
+    # gf = GrassFire(binary)
     cv2.imshow('yes', binary)
-    cv2.imshow('pic', pic)
-    cv2.imwrite('C2B.jpg', pic)
+    # cv2.imshow('pic', pic)
+    # # cv2.imwrite('C6B.jpg', pic)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
