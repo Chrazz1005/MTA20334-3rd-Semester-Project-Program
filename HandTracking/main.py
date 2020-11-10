@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     th = Thresholding()
 
-    frame = cv2.imread('./PicsEval/B2.jpg', cv2.COLOR_BGR2HSV)
+    frame = cv2.imread('./PicsEval/C2.jpg', cv2.COLOR_BGR2HSV)
 
     binary = th.binarize(frame)
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     gf = GrassFire(binary)
     cv2.imshow('yes', binary)
     cv2.imshow('pic', pic)
-    cv2.imwrite('B2B.jpg', pic)
+    cv2.imwrite('C2B.jpg', pic)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
