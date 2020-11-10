@@ -5,7 +5,6 @@ from HandTracking.Modules.SobelEdge import *
 from HandTracking.GrassFire import *
 from HandTracking.Thresholding import *
 
-
 if __name__ == '__main__':
     # cap = cv2.VideoCapture(0)
     #
@@ -26,9 +25,7 @@ if __name__ == '__main__':
 
     gf = GrassFire(binary)
     cv2.imshow('yes', binary)
-    cv2.imshow('b', pic)
-
-
+    cv2.imshow('pic', pic)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
