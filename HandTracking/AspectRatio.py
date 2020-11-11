@@ -1,5 +1,3 @@
-import cv2
-import numpy as np
 from GeometryCalculator import *
 
 
@@ -7,12 +5,13 @@ class AspectRatio:
     Billede = cv2.imread("Binarized_Pictures/B2.png", 0)
     handGesture = ""
 
-    gc = GeometryCalculator()
-    gc.cPoints(Billede)
+    def __init__(self, image):
+        self.image = image
 
     def calculateAreal(self):
-        height = (self.gc.wMaxY - self.gc.wMinY) + 1
-        width = (self.gc.wMaxX - self.gc.wMinX) + 1
+        gc = GeometryCalculator(self.image)
+        height = (gc.wMaxY - gc.wMinY) + 1
+        width = (gc.wMaxX - gc.wMinX) + 1
         areal = (height * width)
         return areal, height, width
 

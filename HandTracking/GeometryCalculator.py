@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 
 class GeometryCalculator:
@@ -10,13 +9,16 @@ class GeometryCalculator:
     whitePixelsY, whitePixelsX = [], []
     blackPixelsY, blackPixelsX = [], []
 
-    def cPoints(self, image):
-        binaryImageHeight = image.shape[0]
-        binaryImageWidth = image.shape[1]
+    def __init__(self, image):
+        self.image = image
+
+    def cPoints(self):
+        binaryImageHeight = self.image.shape[0]
+        binaryImageWidth = self.image.shape[1]
 
         for y in range(0, binaryImageHeight):
             for x in range(0, binaryImageWidth):
-                if image[y, x] == 255:
+                if self.image[y, x] == 255:
                     self.allWhitePixels += 1
                     self.whitePixelsY.append(y)
                     self.whitePixelsX.append(x)
@@ -31,4 +33,18 @@ class GeometryCalculator:
         for i in range(0, len(self.whitePixelsY)):
             self.whitePixelCoords.append([self.whitePixelsY[i], self.whitePixelsX[i]])
 
-        cv2.rectangle(image, (self.wMaxX, self.wMaxY), (self.wMinX, self.wMinY), color=255, thickness=1)
+        cv2.rectangle(self.image, (self.wMaxX, self.wMaxY), (self.wMinX, self.wMinY), color=255, thickness=1)
+
+    def cPointsPrintResult(self):
+        print("+---------------- PRINT DETAILS ----------------+")
+        print("| MAX X:", self.wMaxX, "MAX Y:", self.wMaxY)
+        print("| MIN X:", self.wMinX, "MIN Y:", self.wMinY)
+        print("|------------------------------------------------")
+        print("| Total White Pixels:", self.allWhitePixels)
+        print("| Total Black Pixels:", self.allBlackPixels)
+        print("| Total Pixels:", (self.allWhitePixels + self.allBlackPixels))
+        print("|------------------------------------------------")
+
+    def startGeometryCalculations(self):
+        self.cPoints()
+        self.cPointsPrintResult()
