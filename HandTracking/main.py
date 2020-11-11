@@ -16,15 +16,18 @@ if __name__ == '__main__':
     frame = cv2.imread('./PicsEval/A1.jpg', cv2.COLOR_BGR2HSV)
 
     binary = th.binarize(frame)
-    #
-    # grass = GrassFire(binary)
-    #
+    cv2.imshow('yes', binary)
+    cv2.waitKey(0)
+
+    gr = GrassFire(img=binary)
+    grass = gr.startGrassFire()
+
     # pic = grass.startGrassFire()
     # # print('pic', pic)
     # # #
     # #
     # gf = GrassFire(binary)
-    cv2.imshow('yes', binary)
+    cv2.imshow('yes', grass)
     # cv2.imshow('pic', pic)
     # # cv2.imwrite('C6B.jpg', pic)
 
