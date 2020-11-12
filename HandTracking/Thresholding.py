@@ -6,8 +6,6 @@ import time
 class Thresholding:
     # ------------ Image Definitions ------------
 
-
-
     # ------------ Count Program Execution Time ------------
     startTime = time.time()
 
@@ -15,6 +13,7 @@ class Thresholding:
         r, g, b = cv2.split(image)
 
         return r  # Since the image is "binary", being either 0 in all channels or 255, it doesn't matter which channel is returned
+
     # ------------ Binary Function ------------
     def binarize(self, image):
         outputImage = np.zeros(image.shape, dtype=image.dtype)
@@ -26,8 +25,8 @@ class Thresholding:
                 # Initializing the color value R, G, B
                 H, S, V = pixel[0], pixel[1], pixel[2]
                 if H in range(35, 115) and S in range(115, 240) and V in range(0, 200):
-                    #H in range(0, 90) and S in range(40, 195) and V in range(20, 170):
-                    #H in range(0, 80) and S in range(0, 195) and V in range(25, 170):
+                    # H in range(0, 90) and S in range(40, 195) and V in range(20, 170):
+                    # H in range(0, 80) and S in range(0, 195) and V in range(25, 170):
                     # If so, turn the pixel white
                     outputImage[y, x] = 255
                 else:

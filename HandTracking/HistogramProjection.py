@@ -14,14 +14,16 @@ class HistogramProjection:
 
         return r  # Since the image is "binary", being either 0 in all channels or 255, it doesn't matter which channel is returned
 
-    def getHistogram_VProjection(self):
-        "Return a list containing the sum of the pixels in each column"
+    def getHistogram_VProjection(self):  ### Gets a vertical projection of the white pixel distribution
+
         img = self.splitImage()
         (hY, wY) = img.shape[:2]
         sumColsY = []
 
+        # Creates a list containing the sum of the pixels in each column
         for j in range(hY):
-            colY = img[j:j + 1, 0:wY]  # y1:y2, x1:x2
+            colY = img[j:j + 1,
+                   0:wY]  # since python is (y, x), the y increments 1 each iteration, whereas the the entire x-row is included to calculate the sum of it.
 
             sumColsY.append(np.sum(colY))
 
@@ -41,14 +43,14 @@ class HistogramProjection:
 
         return sumColsY
 
-    def getHistogram_HProjection(self):
-        "Return a list containing the sum of the pixels in each column"
+    def getHistogram_HProjection(self):  ### Gets a horizontal projection of the white pixel distribution
+
         img = self.splitImage()
         (hX, wX) = img.shape[:2]
         sumColsX = []
 
         for j in range(wX):
-            colX = img[0:hX, j:j + 1]  # y1:y2, x1:x2
+            colX = img[0:hX, j:j + 1]  # Same as the vertical projection, but with the axis flipped.
 
             sumColsX.append(np.sum(colX))
         if self.__localDebug:
@@ -66,7 +68,7 @@ class HistogramProjection:
 
         return sumColsX
 
-    def trimZeros(self, list):
+    def trimZeros(self, list):  ##### Removing zeros from (empty space) from the data set
         trimmedvert = []
         for i in range(0, len(list)):
             if list[i] != 0:
@@ -74,7 +76,7 @@ class HistogramProjection:
 
         return trimmedvert
 
-    def checkDuplicates(self, list):
+    def checkDuplicates(self, list):  ############## To be deleted perhaps ##########
         checked = []
         duplicates = []
 
@@ -87,7 +89,7 @@ class HistogramProjection:
         # print('Duplicates:', duplicates)
         return checked
 
-    def getTopXPercentile(self, list, percentile):
+    def getTopXPercentile(self, list, percentile):  ########### To be deleted perhaps #########
         toppunkter = []
         for i in range(len(list)):
             if list[i] > max(list) * percentile / 100:
@@ -291,7 +293,6 @@ class HistogramProjection:
                 print('cScore for increase and decrease in right intervals')
 
         maxHeightRelation = max(trimmedvert) / max(trimmedhori)
-
         if 1.1 < maxHeightRelation < 1.4:
             cScore += 1
             if self.__localDebug:
@@ -318,7 +319,7 @@ class HistogramProjection:
 
 
 if __name__ == '__main__':
-    imgA = cv2.imread('./PicsEval/A4B.jpg')
+    imgA = cv2.imread('./PicsEval/C6B.jpg')
     imgA2 = cv2.imread('./PicsEval/A5B.jpg')
     imgA3 = cv2.imread('./PicsEval/A6B.jpg')
 
@@ -326,12 +327,10 @@ if __name__ == '__main__':
     imgB2 = cv2.imread('./PicsEval/B4B.jpg')
     imgB3 = cv2.imread('./PicsEval/B6B.jpg')
     imgC = cv2.imread('./PicsEval/C4B.jpg')
-    imgC2 = cv2.imread('./PicsEval/C6B.jpg')
+    imgC2 = cv2.imread('./PicsEval/C1B.jpg')
 
-    ProjectDist = HistogramProjection(imgC2)
+    ProjectDist = HistogramProjection(imgA)
     ProjectDist.checkGesture()
-
-
 
     # cv2.imshow('C', imgC)
     # cv2.imshow('A', imgA)
