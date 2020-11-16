@@ -2,6 +2,7 @@ import cv2
 
 
 class GeometryCalculator:
+    debug = False
     whitePixelCoords = []
     wMaxY, wMaxX = 0, 0
     wMinY, wMinX = 0, 0
@@ -35,6 +36,16 @@ class GeometryCalculator:
 
         cv2.rectangle(self.image, (self.wMaxX, self.wMaxY), (self.wMinX, self.wMinY), color=255, thickness=1)
 
+    def resetEveryFuckingThing(self):
+        self.whitePixelCoords.clear()
+        self.wMaxY, self.wMaxX = 0, 0
+        self.wMinY, self.wMinX = 0, 0
+        self.allWhitePixels, self.allBlackPixels = 0, 0
+        self.whitePixelsY.clear()
+        self.whitePixelsX.clear()
+        self.blackPixelsY.clear()
+        self.blackPixelsX.clear()
+
     def cPointsPrintResult(self):
         print("+---------------- PRINT DETAILS ----------------+")
         print("| MAX X:", self.wMaxX, "MAX Y:", self.wMaxY)
@@ -47,4 +58,5 @@ class GeometryCalculator:
 
     def startGeometryCalculations(self):
         self.cPoints()
-        self.cPointsPrintResult()
+        if self.debug:
+            self.cPointsPrintResult()

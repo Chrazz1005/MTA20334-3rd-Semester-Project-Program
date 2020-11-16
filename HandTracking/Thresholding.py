@@ -41,9 +41,8 @@ class Thresholding:
         return image
 
     def binarize(self, image):
-        # self.convertToHSV(image)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-        npArray = np.array(np.asarray(image))
+        imageConverted = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        npArray = np.array(np.asarray(imageConverted))
 
         Range = [(30, 80), (0, 255), (0, 255)]
         redColorRange = np.logical_and(Range[0][0] < npArray[:, :, 0], npArray[:, :, 0] < Range[0][1])
@@ -56,4 +55,4 @@ class Thresholding:
 
         return npArray
 
-    print("Program Execution Time: %s" % (time.time() - startTime), "seconds")
+    #print("Program Execution Time: %s" % (time.time() - startTime), "seconds")

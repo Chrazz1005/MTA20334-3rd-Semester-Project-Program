@@ -2,7 +2,6 @@ from GeometryCalculator import *
 
 
 class Compactness:
-    binaryImage = cv2.imread("Binarized_Pictures/hres.png", 0)
     debug = True
     allPixelsInBoundary = 0
 
@@ -16,10 +15,13 @@ class Compactness:
         compactness = round((100 / area) * gc.allWhitePixels)
         return compactness
 
+    # 77,85
     def compactnessComparison(self):
-        if self.calculateCompactness() in range(55, 100):
+        if self.calculateCompactness() in range(75, 85):
             handGesture = "A"
-        elif self.calculateCompactness() in range(15, 50):
+        elif self.calculateCompactness() in range(80, 85):
+            handGesture = "B"
+        elif self.calculateCompactness() in range(45, 50):
             handGesture = "C"
         else:
             handGesture = "Not Found"

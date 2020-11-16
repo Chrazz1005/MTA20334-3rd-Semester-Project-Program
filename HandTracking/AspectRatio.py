@@ -2,22 +2,22 @@ from GeometryCalculator import *
 
 
 class AspectRatio:
-    Billede = cv2.imread("Binarized_Pictures/B2.png", 0)
     handGesture = ""
 
     def __init__(self, image):
         self.image = image
 
-    def calculateAreal(self):
+    def calculateArea(self):
         gc = GeometryCalculator(self.image)
+        gc.cPoints()
         height = (gc.wMaxY - gc.wMinY) + 1
         width = (gc.wMaxX - gc.wMinX) + 1
         areal = (height * width)
         return areal, height, width
 
     def calculateAspectRatio(self):
-        aspectRatio = (self.calculateAreal()[1] / self.calculateAreal()[2])
-        return aspectRatio
+        aspectRatio = (self.calculateArea()[1] / self.calculateArea()[2])
+        return round(aspectRatio, 2)
 
     def compareAspectRatio(self):
         handGesture = ""
