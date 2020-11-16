@@ -4,7 +4,7 @@ from HandTracking.CameraHandler import *
 from HandTracking.Modules.SobelEdge import *
 from HandTracking.GrassFire import *
 from HandTracking.Thresholding import *
-from HandTracking.HistogramProjection import *
+#from HandTracking.HistogramProjection import *
 from HandTracking.Compactness import *
 from HandTracking.AspectRatio import *
 
