@@ -40,15 +40,31 @@ class EuclideanDistance:
     horizontalRatio_C_min = 120
     horizontalRatio_C_max = 200
 
-    A_min = np.array((aspectRatio_A_min, compactness_A_min, heightRelation_A_min, verticalRatio_A_min, horizontalRatio_A_min))
-    A_max = np.array((aspectRatio_A_max, compactness_A_max, heightRelation_A_max, verticalRatio_A_max, horizontalRatio_A_max))
-    B_min = np.array((aspectRatio_B_min, compactness_B_min, heightRelation_B_min, verticalRatio_B_min, horizontalRatio_B_min))
-    B_max = np.array((aspectRatio_B_max, compactness_B_max, heightRelation_B_max, verticalRatio_B_max, horizontalRatio_B_max))
-    C_min = np.array((aspectRatio_C_min, compactness_C_min, heightRelation_C_min, verticalRatio_C_min, horizontalRatio_C_min))
-    C_max = np.array((aspectRatio_C_max, compactness_C_max, heightRelation_C_max, verticalRatio_C_max, horizontalRatio_C_max))
+    localMaximum_A_min = 1.1
+    localMaximum_A_max = 1.5
+    localMaximum_B_min = 0.8
+    localMaximum_B_max = 1.1
+    localMaximum_C_min = 1.8
+    localMaximum_C_max = 2.2
 
-    def distance(self, aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio):
-        inputCoordinates = np.array([aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio])
+    A_min = np.array((aspectRatio_A_min, compactness_A_min, heightRelation_A_min, verticalRatio_A_min,
+                      horizontalRatio_A_min, localMaximum_A_min))
+    A_max = np.array((aspectRatio_A_max, compactness_A_max, heightRelation_A_max, verticalRatio_A_max,
+                      horizontalRatio_A_max, localMaximum_A_max))
+    B_min = np.array((aspectRatio_B_min, compactness_B_min, heightRelation_B_min, verticalRatio_B_min,
+                      horizontalRatio_B_min, localMaximum_B_min))
+    B_max = np.array((aspectRatio_B_max, compactness_B_max, heightRelation_B_max, verticalRatio_B_max,
+                      horizontalRatio_B_max, localMaximum_B_max))
+    C_min = np.array((aspectRatio_C_min, compactness_C_min, heightRelation_C_min, verticalRatio_C_min,
+                      horizontalRatio_C_min, localMaximum_C_min))
+    C_max = np.array((aspectRatio_C_max, compactness_C_max, heightRelation_C_max, verticalRatio_C_max,
+                      horizontalRatio_C_max, localMaximum_C_max))
+
+
+    def distance(self, aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum):
+        inputCoordinates = np.array([aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio,
+                                     localMaximum])
+        print("input coordinates:", inputCoordinates)
 
         # calculates the distance between the input coordinates and points
         distance_A_min = np.linalg.norm(self.A_min - inputCoordinates)

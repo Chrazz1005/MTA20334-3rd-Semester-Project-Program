@@ -34,7 +34,7 @@ class GeometryCalculator:
         for i in range(0, len(self.whitePixelsY)):
             self.whitePixelCoords.append([self.whitePixelsY[i], self.whitePixelsX[i]])
 
-        cv2.rectangle(self.image, (self.wMaxX, self.wMaxY), (self.wMinX, self.wMinY), color=255, thickness=1)
+        #cv2.rectangle(self.image, (self.wMaxX, self.wMaxY), (self.wMinX, self.wMinY), color=255, thickness=1)
 
     def resetEveryFuckingThing(self):
         self.whitePixelCoords.clear()

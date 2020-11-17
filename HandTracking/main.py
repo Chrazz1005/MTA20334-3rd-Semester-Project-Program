@@ -7,6 +7,7 @@ from HandTracking.Thresholding import *
 from HandTracking.HistogramProjection import *
 from HandTracking.Compactness import *
 from HandTracking.AspectRatio import *
+from HandTracking.ProjectionHistograms import *
 from HandTracking.EuclideanDistance import *
 
 
@@ -28,12 +29,16 @@ if __name__ == '__main__':
     grass = gr.startGrassFire()
 
     cp = Compactness(binary)
-    cp.printResults()
+    #cp.printResults()
     ap = AspectRatio(binary)
     print(ap.compareAspectRatio())
 
+    ph = ProjectionHistogram(binary)
+
     ed = EuclideanDistance()
-    ed.distance(2, 70, 10, 2, 3)
+    ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(), ph.checkVertSizeRatio(),
+                ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
+    # [aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum]
 
     cv2.imshow('yes', grass)
 

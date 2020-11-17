@@ -9,20 +9,17 @@ class ProjectionHistogram:
     def __init__(self, img):
         self.img = img
 
-    def splitImage(self):
-        r, g, b = cv2.split(self.img)
-
-        return r  # Since the image is "binary", being either 0 in all channels or 255, it doesn't matter which channel is returned
+    # def splitImage(self):
+    #     r, g, b = cv2.split(self.img)
+    #     return r  # Since the image is "binary", being either 0 in all channels or 255, it doesn't matter which channel is returned
 
     def getHistogram_VProjection(self):  ### Gets a vertical projection of the white pixel distribution
-
-        img = self.splitImage()
-        (hY, wY) = img.shape[:2]
+        (hY, wY) = self.img.shape[:2]
         sumColsY = []
 
         # Creates a list containing the sum of the pixels in each column
         for j in range(hY):
-            colY = img[j:j + 1,
+            colY = self.img[j:j + 1,
                    0:wY]  # since python is (y, x), the y increments 1 each iteration, whereas the the entire x-row is included to calculate the sum of it.
 
             sumColsY.append(np.sum(colY))
@@ -32,40 +29,38 @@ class ProjectionHistogram:
             print('length vertical array:', len(sumColsY))
 
         x_axis = []
-        for i in range(0, img.shape[0]):
+        for i in range(0, self.img.shape[0]):
             x_axis.append(i)
 
-        plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
-        plt.ylabel('Sum of white pixels in row y')
-        plt.title('Vertical distribution', fontsize=15)
-        plt.plot(x_axis, sumColsY)
-        plt.show()
+        # plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
+        # plt.ylabel('Sum of white pixels in row y')
+        # plt.title('Vertical distribution', fontsize=15)
+        # plt.plot(x_axis, sumColsY)
+        # plt.show()
 
         sumColsY = self.trimZeros(sumColsY)
         return sumColsY
 
     def getHistogram_HProjection(self):  ### Gets a horizontal projection of the white pixel distribution
-
-        image = self.splitImage()
-        (hX, wX) = image.shape[:2]
+        (hX, wX) = self.img.shape[:2]
         sumColsX = []
 
         for j in range(wX):
-            colX = img[0:hX, j:j + 1]  # Same as the vertical projection, but with the axis flipped.
+            colX = self.img[0:hX, j:j + 1]  # Same as the vertical projection, but with the axis flipped.
 
             sumColsX.append(np.sum(colX))
         if self.__localDebug:
             print('Horizontal distribution:', sumColsX)
             print('length horizontal array:', len(sumColsX))
         x_axis = []
-        for a in range(0, img.shape[1]):
+        for a in range(0, self.img.shape[1]):
             x_axis.append(a)
 
-        plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
-        plt.ylabel('Sum of white pixels in col x')
-        plt.title('Horizontal distribution', fontsize=15)
-        plt.plot(x_axis, sumColsX)
-        plt.show()
+        # plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
+        # plt.ylabel('Sum of white pixels in col x')
+        # plt.title('Horizontal distribution', fontsize=15)
+        # plt.plot(x_axis, sumColsX)
+        # plt.show()
 
         sumColsX = self.trimZeros(sumColsX)
         return sumColsX
@@ -92,23 +87,23 @@ class ProjectionHistogram:
 
         return maxHeightRelation
 
-    def checkSizeRatio(self):
+    def checkHoriSizeRatio(self):
         horiProject = self.getHistogram_HProjection()
-        vertiProject = self.getHistogram_VProjection()
-
         lenHori = len(horiProject)
-        lenVert = len(vertiProject)
         maxHori = max(horiProject)
-        maxVert = max(vertiProject)
-
         sizeRatioHori = maxHori / lenHori
+        return sizeRatioHori
+
+    #### Range for C (testet på 2 billeder); Horizontal: 120 - 200, Vertical: 240-260
+    #### Range for B (testet på 3 billeder); Horizontal: 280 - 310, Vertical: 130-160
+    #### Range for A (testet på 7 billeder); Horizontal: 320 - 480, Vertical: 100 - 130
+
+    def checkVertSizeRatio(self):
+        vertiProject = self.getHistogram_VProjection()
+        lenVert = len(vertiProject)
+        maxVert = max(vertiProject)
         sizeRatioVert = maxVert / lenVert
-
-        #### Range for C (testet på 2 billeder); Horizontal: 120 - 200, Vertical: 240-260
-        #### Range for B (testet på 3 billeder); Horizontal: 280 - 310, Vertical: 130-160
-        #### Range for A (testet på 7 billeder); Horizontal: 320 - 480, Vertical: 100 - 130
-
-        return sizeRatioHori, sizeRatioVert
+        return sizeRatioVert
 
     def checkMaximumRelations(self):
         vertiProject = self.getHistogram_VProjection()
