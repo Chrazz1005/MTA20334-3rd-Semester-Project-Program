@@ -17,32 +17,44 @@ if __name__ == '__main__':
     # cameraHandler = CameraHandler(cap)
     # cameraHandler.grabFrame()
 
-    th = Thresholding()
 
-    frame = cv2.imread('./PicsEval/A1.jpg', cv2.COLOR_BGR2HSV)
 
-    binary = th.binarize(frame)
-    #cv2.imshow('yes', binary)
-    #cv2.waitKey(0)
+    #frame = cv2.imread('./PicsEval/C4.jpg', cv2.COLOR_BGR2HSV)
+    vid = cv2.VideoCapture(0) # 0 = main intern
 
-    gr = GrassFire(binary)
-    grass = gr.startGrassFire()
+    while (True):
 
-    cp = Compactness(binary)
-    #cp.printResults()
-    ap = AspectRatio(binary)
-    print(ap.compareAspectRatio())
+        # Capture the video frame
+        # by frame
+        ret, frame = vid.read()
 
-    ph = ProjectionHistogram(binary)
+        th = Thresholding()
+        binary = th.binarize(frame)
+        gr = GrassFire(binary)
+        grass = gr.startGrassFire()
 
-    ed = EuclideanDistance()
-    ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(), ph.checkVertSizeRatio(),
-                ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
-    # [aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum]
+        cp = Compactness(binary)
+        ap = AspectRatio(binary)
+        ph = ProjectionHistogram(binary)
 
-    cv2.imshow('yes', grass)
+        ed = EuclideanDistance()
+        ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
+                    ph.checkVertSizeRatio(),
+                    ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
+        # [aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum]
 
-    cv2.waitKey(0)
+        # the 'q' button is set as the
+        # quitting button you may use any
+        # desired button of your choice
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    # After the loop release the cap object
+    vid.release()
+
+
+    # cv2.imshow('yes', grass)
+    # cv2.waitKey(0)
     cv2.destroyAllWindows()
 
     # When everything done, release the capture

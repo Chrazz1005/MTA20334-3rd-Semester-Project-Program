@@ -89,6 +89,8 @@ class EuclideanDistance:
               "\nDistance to minimum C value:", round(distance_C_min, 2),
               "\nDistance to maximum C value:", round(distance_C_max, 2), "\n")
 
+        print("Min. distance:", minDistance)
+
         for key, value in handsigns.items():
             if minDistance == value:
                 print("The gesture is:", key)
