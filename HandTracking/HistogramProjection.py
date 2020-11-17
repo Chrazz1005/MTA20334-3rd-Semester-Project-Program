@@ -103,11 +103,11 @@ class HistogramProjection:
 
         return sortToppunkter
 
-    def checkIfA(self, listVert, listHori):
+    def checkIfB(self, listVert, listHori):
         trimVert = self.trimZeros(listVert)
         trimHori = self.trimZeros(listHori)
 
-        aScore = 0
+        bScore = 0
 
         maxHori = max(trimHori)
         maxVert = max(trimVert)
@@ -126,7 +126,7 @@ class HistogramProjection:
             print('Forhold mellem største højde i de to histrogrammer', maxHeightRelation)
 
         if 0.35 < maxHeightRelation < 0.6:
-            aScore += 1
+            bScore += 1
             if self.__localDebug:
                 print('aScore from relation between max heights of the two distributions')
 
@@ -139,29 +139,29 @@ class HistogramProjection:
             print('distRatioVert:', distRatioVert)
 
         if 300 <= distRatioHori <= 500 and 95 <= distRatioVert <= 150:
-            aScore += 1
+            bScore += 1
             if self.__localDebug:
                 print('aScore from ratios of max height and length of the two distributions')
 
         medianHori = trimHori[int(len(trimHori) / 2)]
         if medianHori > max(trimHori) * 0.90:
-            aScore += 1
+            bScore += 1
             if self.__localDebug:
                 print('aScore from median being in the top 90%')
 
         lengRelation = len(trimVert) / len(trimHori)
         if 1.4 < lengRelation < 2.1:
-            aScore += 1
+            bScore += 1
             if self.__localDebug:
                 print('aScore from relationship between vertical and horizontal length')
 
-        print('aScore:', aScore)
-        return aScore
+        print('bScore:', bScore)
+        return bScore
 
-    def checkIfB(self, listvert, listhori):
+    def checkIfA(self, listvert, listhori):
         trimmedVert = self.trimZeros(listvert)
         trimmedHori = self.trimZeros(listhori)
-        bScore = 0
+        aScore = 0
 
         lenVert = len(trimmedVert)
         lenHori = len(trimmedHori)
@@ -176,20 +176,20 @@ class HistogramProjection:
             print('biggest val vert place:', trimmedVert.index(max(trimmedVert)))
 
         if trimmedVert.index(max(trimmedVert)) < len(trimmedVert) * 0.25:
-            bScore += 1
+            aScore += 1
             if self.__localDebug:
                 print('bScore from toppoint being placed in first 25% of distribution')
 
         topLenRelation = max(trimmedHori) / len(
             trimmedHori)  ###Relation between the toppoint and the length of the horizontal distribution
         if 280 < topLenRelation < 310:
-            bScore += 1
+            aScore += 1
             if self.__localDebug:
                 print('bScore from relation between the toppoint and the length of the horizontal distribution')
 
         maxHeightRelation = max(trimmedVert) / max(trimmedHori)
         if 0.6 <= maxHeightRelation <= 0.8:
-            bScore += 1
+            aScore += 1
             if self.__localDebug:
                 print('bScore from relation between max values in the two distributions')
 
@@ -211,12 +211,12 @@ class HistogramProjection:
         distTops = secondTop[0] - firstTop[0]
         distTopsnLengthRelation = distTops / len(trimmedVert)
         if 0.18 <= distTopsnLengthRelation <= 0.32:
-            bScore += 1
+            aScore += 1
             if self.__localDebug:
                 print('bScore from relation between first two tops and the full length of the distribution')
 
-        print('bScore:', bScore)
-        return bScore
+        print('aScore:', aScore)
+        return aScore
 
     def checkIfC(self, listvert, listhori):
         #### Karaktaristika for C;

@@ -82,8 +82,8 @@ class ProjectionHistogram:
         maxHeightRelation = maxVert / maxHori
 
         ### C range: 1.1 - 1.4
-        ### B range: 0.6 - 0.8
-        ### A range: 0.35 - 0.6
+        ### A range: 0.6 - 0.8
+        ### B range: 0.35 - 0.6
 
         return maxHeightRelation
 
@@ -95,8 +95,8 @@ class ProjectionHistogram:
         return sizeRatioHori
 
     #### Range for C (testet på 2 billeder); Horizontal: 120 - 200, Vertical: 240-260
-    #### Range for B (testet på 3 billeder); Horizontal: 280 - 310, Vertical: 130-160
-    #### Range for A (testet på 7 billeder); Horizontal: 320 - 480, Vertical: 100 - 130
+    #### Range for A (testet på 3 billeder); Horizontal: 280 - 310, Vertical: 130-160
+    #### Range for B (testet på 7 billeder); Horizontal: 320 - 480, Vertical: 100 - 130
 
     def checkVertSizeRatio(self):
         vertiProject = self.getHistogram_VProjection()
@@ -126,8 +126,8 @@ class ProjectionHistogram:
         heightDiffRelation = storTop[1] / lilleTop[1]
 
         ### C range: 1.8 - 2.2
-        ### B range: 0.8 - 1.1
-        ### A range: 1.1 - 1.5
+        ### A range: 0.8 - 1.1
+        ### B range: 1.1 - 1.5
 
         return heightDiffRelation
 
@@ -136,5 +136,5 @@ if __name__ == '__main__':
     img = cv2.imread('./PicsEval/A1B.jpg')
     PH = ProjectionHistogram(img)
     print("maxHeightRelation:", PH.checkMaxHeightRelation())
-    print("sizeRatio Hori, Verti", PH.checkSizeRatio())
+
     print("Relation between maximums", PH.checkMaximumRelations())
