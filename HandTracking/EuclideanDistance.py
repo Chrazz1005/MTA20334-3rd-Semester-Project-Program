@@ -1,4 +1,4 @@
-
+from sklearn import preprocessing
 import numpy as np
 
 
@@ -60,19 +60,25 @@ class EuclideanDistance:
     C_max = np.array((aspectRatio_C_max, compactness_C_max, heightRelation_C_max, verticalRatio_C_max,
                       horizontalRatio_C_max, localMaximum_C_max))
 
-
     def distance(self, aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum):
-        inputCoordinates = np.array([aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio,
-                                     localMaximum])
+        inputCoordinates = np.array((aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio,
+                                     localMaximum))
+
+        data = np.array((self.A_min, self.A_max, self.B_min, self.B_max, self.C_min, self.C_max, inputCoordinates))
+        data_normalized = data / np.linalg.norm(data)
+
+        inputCoordinates = data_normalized[6]
+
+        print("Data:", data_normalized)
         print("input coordinates:", inputCoordinates)
 
         # calculates the distance between the input coordinates and points
-        distance_A_min = np.linalg.norm(self.A_min - inputCoordinates)
-        distance_A_max = np.linalg.norm(self.A_max - inputCoordinates)
-        distance_B_min = np.linalg.norm(self.B_min - inputCoordinates)
-        distance_B_max = np.linalg.norm(self.B_max - inputCoordinates)
-        distance_C_min = np.linalg.norm(self.C_min - inputCoordinates)
-        distance_C_max = np.linalg.norm(self.C_max - inputCoordinates)
+        distance_A_min = np.linalg.norm(data_normalized[0] - inputCoordinates)
+        distance_A_max = np.linalg.norm(data_normalized[1] - inputCoordinates)
+        distance_B_min = np.linalg.norm(data_normalized[2] - inputCoordinates)
+        distance_B_max = np.linalg.norm(data_normalized[3] - inputCoordinates)
+        distance_C_min = np.linalg.norm(data_normalized[4] - inputCoordinates)
+        distance_C_max = np.linalg.norm(data_normalized[5] - inputCoordinates)
 
         handsigns = {
             "A": distance_A_min and distance_A_max,

@@ -33,14 +33,13 @@ if __name__ == '__main__':
         gr = GrassFire(binary)
         grass = gr.startGrassFire()
 
-        cp = Compactness(binary)
-        ap = AspectRatio(binary)
-        ph = ProjectionHistogram(binary)
+        cp = Compactness(grass)
+        ap = AspectRatio(grass)
+        ph = ProjectionHistogram(grass)
 
         ed = EuclideanDistance()
         ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
-                    ph.checkVertSizeRatio(),
-                    ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
+                    ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
         # [aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum]
 
         # the 'q' button is set as the
