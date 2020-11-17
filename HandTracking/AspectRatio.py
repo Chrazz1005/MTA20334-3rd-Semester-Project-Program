@@ -1,4 +1,4 @@
-from HandTracking.GeometryCalculator import *
+from GeometryCalculator import *
 
 
 class AspectRatio:
@@ -21,9 +21,9 @@ class AspectRatio:
 
     def compareAspectRatio(self):
         handGesture = ""
-        if 2.1 < self.calculateAspectRatio() < 2.5 or 2.5 < self.calculateAspectRatio() < 2.1:
+        if 1.7 < self.calculateAspectRatio() < 2.0 or 2.0 < self.calculateAspectRatio() < 1.7:
             handGesture = "A"
-        elif 1.7 < self.calculateAspectRatio() < 2.0 or 2.0 < self.calculateAspectRatio() < 1.7:
+        elif 2.1 < self.calculateAspectRatio() < 2.5 or 2.5 < self.calculateAspectRatio() < 2.1:
             handGesture = "B"
         elif 0.6 < self.calculateAspectRatio() < 1.3 or 1.3 < self.calculateAspectRatio() < 0.6:
             handGesture = "C"
@@ -31,3 +31,4 @@ class AspectRatio:
             print("No Hand Gesture Detected.")
 
         return handGesture
+

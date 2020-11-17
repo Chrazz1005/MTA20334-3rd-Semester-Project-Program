@@ -1,10 +1,8 @@
 from GeometryCalculator import *
 
-from HandTracking.GeometryCalculator import GeometryCalculator
-
 
 class Compactness:
-    debug = False
+    debug = True
     allPixelsInBoundary = 0
 
     def __init__(self, image):
@@ -19,9 +17,9 @@ class Compactness:
 
     # 77,85
     def compactnessComparison(self):
-        if self.calculateCompactness() in range(75, 85):
+        if self.calculateCompactness() in range(80, 85):
             handGesture = "A"
-        elif self.calculateCompactness() in range(80, 85):
+        elif self.calculateCompactness() in range(75, 85):
             handGesture = "B"
         elif self.calculateCompactness() in range(45, 50):
             handGesture = "C"
