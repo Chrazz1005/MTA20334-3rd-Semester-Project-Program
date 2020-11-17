@@ -4,7 +4,7 @@ from HandTracking.GeometryCalculator import GeometryCalculator
 
 
 class Compactness:
-    debug = True
+    debug = False
     allPixelsInBoundary = 0
 
     def __init__(self, image):

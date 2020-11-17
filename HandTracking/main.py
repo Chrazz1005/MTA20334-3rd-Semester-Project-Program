@@ -4,9 +4,10 @@ from HandTracking.CameraHandler import *
 from HandTracking.Modules.SobelEdge import *
 from HandTracking.GrassFire import *
 from HandTracking.Thresholding import *
-#from HandTracking.HistogramProjection import *
+from HandTracking.HistogramProjection import *
 from HandTracking.Compactness import *
 from HandTracking.AspectRatio import *
+from HandTracking.EuclideanDistance import *
 
 
 if __name__ == '__main__':
@@ -20,8 +21,8 @@ if __name__ == '__main__':
     frame = cv2.imread('./PicsEval/A1.jpg', cv2.COLOR_BGR2HSV)
 
     binary = th.binarize(frame)
-    cv2.imshow('yes', binary)
-    cv2.waitKey(0)
+    #cv2.imshow('yes', binary)
+    #cv2.waitKey(0)
 
     gr = GrassFire(binary)
     grass = gr.startGrassFire()
@@ -31,14 +32,10 @@ if __name__ == '__main__':
     ap = AspectRatio(binary)
     print(ap.compareAspectRatio())
 
-    # pic = grass.startGrassFire()
-    # # print('pic', pic)
-    # # #
-    # #
-    # gf = GrassFire(binary)
+    ed = EuclideanDistance()
+    ed.distance(2, 70, 10, 2, 3)
+
     cv2.imshow('yes', grass)
-    # cv2.imshow('pic', pic)
-    # # cv2.imwrite('C6B.jpg', pic)
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
