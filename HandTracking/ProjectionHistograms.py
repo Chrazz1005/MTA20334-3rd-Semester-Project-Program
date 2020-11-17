@@ -46,8 +46,8 @@ class ProjectionHistogram:
 
     def getHistogram_HProjection(self):  ### Gets a horizontal projection of the white pixel distribution
 
-        img = self.splitImage()
-        (hX, wX) = img.shape[:2]
+        image = self.splitImage()
+        (hX, wX) = image.shape[:2]
         sumColsX = []
 
         for j in range(wX):
@@ -78,8 +78,6 @@ class ProjectionHistogram:
 
         return trimmedList
 
-
-
     def checkMaxHeightRelation(self):
         horiProject = self.getHistogram_HProjection()
         vertiProject = self.getHistogram_VProjection()
@@ -87,6 +85,10 @@ class ProjectionHistogram:
         maxHori = max(horiProject)
         maxVert = max(vertiProject)
         maxHeightRelation = maxVert / maxHori
+
+        ### C range: 1.1 - 1.4
+        ### B range: 0.6 - 0.8
+        ### A range: 0.35 - 0.6
 
         return maxHeightRelation
 
@@ -102,10 +104,13 @@ class ProjectionHistogram:
         sizeRatioHori = maxHori / lenHori
         sizeRatioVert = maxVert / lenVert
 
+        #### Range for C (testet på 2 billeder); Horizontal: 120 - 200, Vertical: 240-260
+        #### Range for B (testet på 3 billeder); Horizontal: 280 - 310, Vertical: 130-160
+        #### Range for A (testet på 7 billeder); Horizontal: 320 - 480, Vertical: 100 - 130
+
         return sizeRatioHori, sizeRatioVert
 
     def checkMaximumRelations(self):
-
         vertiProject = self.getHistogram_VProjection()
 
         for i in range(0, int(len(vertiProject) * 0.30)):
@@ -123,8 +128,13 @@ class ProjectionHistogram:
 
                 storTop = [vertiProject.index(vertiProject[i]), vertiProject[i]]
 
+        heightDiffRelation = storTop[1] / lilleTop[1]
 
+        ### C range: 1.8 - 2.2
+        ### B range: 0.8 - 1.1
+        ### A range: 1.1 - 1.5
 
+        return heightDiffRelation
 
 
 if __name__ == '__main__':
@@ -132,3 +142,4 @@ if __name__ == '__main__':
     PH = ProjectionHistogram(img)
     print("maxHeightRelation:", PH.checkMaxHeightRelation())
     print("sizeRatio Hori, Verti", PH.checkSizeRatio())
+    print("Relation between maximums", PH.checkMaximumRelations())

@@ -23,8 +23,13 @@ if __name__ == '__main__':
     cv2.imshow('yes', binary)
     cv2.waitKey(0)
 
-    gr = GrassFire(img=binary)
+    gr = GrassFire(binary)
     grass = gr.startGrassFire()
+
+    cp = Compactness(binary)
+    cp.printResults()
+    ap = AspectRatio(binary)
+    print(ap.compareAspectRatio())
 
     # pic = grass.startGrassFire()
     # # print('pic', pic)

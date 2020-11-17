@@ -1,5 +1,7 @@
 from GeometryCalculator import *
 
+from HandTracking.GeometryCalculator import GeometryCalculator
+
 
 class Compactness:
     debug = True

@@ -53,6 +53,18 @@ class Thresholding:
         npArray[rgbRange] = 255
         npArray[np.logical_not(rgbRange)] = 0
 
-        return npArray
+        r, g, b = cv2.split(npArray)
+        return r
 
     #print("Program Execution Time: %s" % (time.time() - startTime), "seconds")
+
+if __name__ == '__main__':
+    TH = Thresholding()
+    img = cv2.imread('./PicsEval/A1.jpg')
+    bImg = TH.binarize(img)
+
+    print(bImg)
+    cv2.imshow('b', bImg)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()

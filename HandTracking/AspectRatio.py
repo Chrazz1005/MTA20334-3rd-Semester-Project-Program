@@ -1,4 +1,4 @@
-from GeometryCalculator import *
+from HandTracking.GeometryCalculator import *
 
 
 class AspectRatio:

@@ -228,6 +228,8 @@ class HistogramProjection:
         trimmedhori = self.trimZeros(listhori)
         cScore = 0
 
+        print('CHECK LIGE HER SEB', max(trimmedhori) / len(trimmedhori))
+        print('Check LIGE HER OGSÅ', max(trimmedvert) / len(trimmedvert))
         for i in range(0, int(len(trimmedvert) * 0.30)):
             # print('Første 30%:', trimmedvertvert[i])
             if trimmedvert[i] == max(trimmedvert[0:int(len(trimmedvert) * 0.30)]):
@@ -248,16 +250,16 @@ class HistogramProjection:
         topRelation = storTop[0] / lilleTop[0]
         heightDiffRelation = storTop[1] / lilleTop[1]
         heightLengthRelation = storTop[1] / len(trimmedvert)
-        if self.__localDebug:
-            print('stortop', storTop)
-            print('lilletop', lilleTop)
-            print('----------------------------------------------------')
-            print('Afstand mellem toppunkter:', dstTops)
-            print('Forhold mellem afstand og samlede længde:', dstTopsnLengthRelation)
-            print('Forhold mellem afstand af toppunkter:', topRelation)
-            print('----------------------------------------------------')
-            print('Forhold mellem højde:', heightDiffRelation)
-            print('Forhold mellem største højde ift. længde', heightLengthRelation)
+
+        print('stortop', storTop)
+        print('lilletop', lilleTop)
+        print('----------------------------------------------------')
+        print('Afstand mellem toppunkter:', dstTops)
+        print('Forhold mellem afstand og samlede længde:', dstTopsnLengthRelation)
+        print('Forhold mellem afstand af toppunkter:', topRelation)
+        print('----------------------------------------------------')
+        print('Forhold mellem højde:', heightDiffRelation)
+        print('Forhold mellem største højde ift. længde', heightLengthRelation)
 
         if 0.50 < dstTopsnLengthRelation < 0.75:
             cScore += 1
@@ -319,17 +321,23 @@ class HistogramProjection:
 
 
 if __name__ == '__main__':
-    imgA = cv2.imread('./PicsEval/C6B.jpg')
-    imgA2 = cv2.imread('./PicsEval/A5B.jpg')
-    imgA3 = cv2.imread('./PicsEval/A6B.jpg')
+    imgA = cv2.imread('./PicsEval/A1B.jpg')
+    imgA2 = cv2.imread('./PicsEval/A4B.jpg')
+    imgA3 = cv2.imread('./PicsEval/A2B.jpg')
 
     imgB = cv2.imread('./PicsEval/B3B.jpg')
     imgB2 = cv2.imread('./PicsEval/B4B.jpg')
     imgB3 = cv2.imread('./PicsEval/B6B.jpg')
     imgC = cv2.imread('./PicsEval/C4B.jpg')
-    imgC2 = cv2.imread('./PicsEval/C1B.jpg')
+    imgC2 = cv2.imread('./PicsEval/C6B.jpg')
 
     ProjectDist = HistogramProjection(imgA)
+    ProjectDist.checkGesture()
+
+    ProjectDist = HistogramProjection(imgA2)
+    ProjectDist.checkGesture()
+
+    ProjectDist = HistogramProjection(imgA3)
     ProjectDist.checkGesture()
 
     # cv2.imshow('C', imgC)
