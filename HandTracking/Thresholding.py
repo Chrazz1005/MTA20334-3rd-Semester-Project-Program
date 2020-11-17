@@ -49,7 +49,7 @@ class Thresholding:
         imageConverted = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
         npArray = np.array(np.asarray(imageConverted))
 
-        Range = [(25, 70), (90, 255), (90, 255)]
+        Range = [(30, 80), (0, 255), (0, 255)]
         redColorRange = np.logical_and(Range[0][0] < npArray[:, :, 0], npArray[:, :, 0] < Range[0][1])
         greenColorRange = np.logical_and(Range[1][0] < npArray[:, :, 1], npArray[:, :, 1] < Range[1][1])
         blueColorRange = np.logical_and(Range[2][0] < npArray[:, :, 2], npArray[:, :, 2] < Range[2][1])

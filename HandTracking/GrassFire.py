@@ -117,7 +117,7 @@ class GrassFire:
 
                     self.queue.remove(self.queue[0])
 
-        print("Grass-fire is done.")
+        #¤print("Grass-fire is done.")
 
         #for y in self.arr:
         #    print(y)

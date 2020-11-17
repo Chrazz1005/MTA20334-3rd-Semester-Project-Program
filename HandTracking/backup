@@ -1,9 +1,9 @@
-# from sklearn import preprocessing
+
 import numpy as np
 
 
 class EuclideanDistance:
-    debug = True
+
     # The intervals that determine which hand sign has been detected.
     aspectRatio_A_min = 2.04
     aspectRatio_A_max = 2.27
@@ -60,25 +60,19 @@ class EuclideanDistance:
     C_max = np.array((aspectRatio_C_max, compactness_C_max, heightRelation_C_max, verticalRatio_C_max,
                       horizontalRatio_C_max, localMaximum_C_max))
 
+
     def distance(self, aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum):
-        inputCoordinates = np.array((aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio,
-                                     localMaximum))
-
-        data = np.array((self.A_min, self.A_max, self.B_min, self.B_max, self.C_min, self.C_max, inputCoordinates))
-        data_normalized = data / np.linalg.norm(data)
-
-        inputCoordinates = data_normalized[6]
-
-        #print("Data:", data_normalized)
-        #print("input coordinates:", inputCoordinates)
+        inputCoordinates = np.array([aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio,
+                                     localMaximum])
+        print("input coordinates:", inputCoordinates)
 
         # calculates the distance between the input coordinates and points
-        distance_A_min = np.linalg.norm(data_normalized[0] - inputCoordinates)
-        distance_A_max = np.linalg.norm(data_normalized[1] - inputCoordinates)
-        distance_B_min = np.linalg.norm(data_normalized[2] - inputCoordinates)
-        distance_B_max = np.linalg.norm(data_normalized[3] - inputCoordinates)
-        distance_C_min = np.linalg.norm(data_normalized[4] - inputCoordinates)
-        distance_C_max = np.linalg.norm(data_normalized[5] - inputCoordinates)
+        distance_A_min = np.linalg.norm(self.A_min - inputCoordinates)
+        distance_A_max = np.linalg.norm(self.A_max - inputCoordinates)
+        distance_B_min = np.linalg.norm(self.B_min - inputCoordinates)
+        distance_B_max = np.linalg.norm(self.B_max - inputCoordinates)
+        distance_C_min = np.linalg.norm(self.C_min - inputCoordinates)
+        distance_C_max = np.linalg.norm(self.C_max - inputCoordinates)
 
         handsigns = {
             "A": distance_A_min and distance_A_max,
@@ -87,20 +81,16 @@ class EuclideanDistance:
         }
 
         minDistance = min(handsigns.values())
-        if self.debug:
-            print("Distance to minimum A value:", round(distance_A_min, 2),
-                  "\nDistance to maximum A value:", round(distance_A_max, 2),
-                  "\nDistance to minimum B value:", round(distance_B_min, 2),
-                  "\nDistance to maximum B value:", round(distance_B_max, 2),
-                  "\nDistance to minimum C value:", round(distance_C_min, 2),
-                  "\nDistance to maximum C value:", round(distance_C_max, 2), "\n")
+
+        print("Distance to minimum A value:", round(distance_A_min, 2),
+              "\nDistance to maximum A value:", round(distance_A_max, 2),
+              "\nDistance to minimum B value:", round(distance_B_min, 2),
+              "\nDistance to maximum B value:", round(distance_B_max, 2),
+              "\nDistance to minimum C value:", round(distance_C_min, 2),
+              "\nDistance to maximum C value:", round(distance_C_max, 2), "\n")
 
         print("Min. distance:", minDistance)
 
-        if minDistance < 0.07:
-            for key, value in handsigns.items():
-                if minDistance == value:
-                    print("The gesture is:", key)
-        else:
-            print("Neither A, B or C was detected.")
-        print('-----------------------------------------------')
+        for key, value in handsigns.items():
+            if minDistance == value:
+                print("The gesture is:", key)
