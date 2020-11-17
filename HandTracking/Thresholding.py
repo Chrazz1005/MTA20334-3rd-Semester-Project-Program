@@ -5,9 +5,14 @@ import time
 
 class Thresholding:
     startTime = time.time()
+    testImage = cv2.imread("Gesture_A/A10.jpg", cv2.IMREAD_COLOR)
 
     # x, y = (image > limit).nonzero()
     # vals = image[x, y]
+
+    def splitImage(self, image):
+        r, g, b = cv2.split(image)
+        return r
 
     def convertToHSV(self, image):
         for x, row in enumerate(image):
@@ -44,7 +49,7 @@ class Thresholding:
         imageConverted = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
         npArray = np.array(np.asarray(imageConverted))
 
-        Range = [(30, 80), (0, 255), (0, 255)]
+        Range = [(25, 70), (90, 255), (90, 255)]
         redColorRange = np.logical_and(Range[0][0] < npArray[:, :, 0], npArray[:, :, 0] < Range[0][1])
         greenColorRange = np.logical_and(Range[1][0] < npArray[:, :, 1], npArray[:, :, 1] < Range[1][1])
         blueColorRange = np.logical_and(Range[2][0] < npArray[:, :, 2], npArray[:, :, 2] < Range[2][1])
@@ -55,16 +60,3 @@ class Thresholding:
 
         r, g, b = cv2.split(npArray)
         return r
-
-    #print("Program Execution Time: %s" % (time.time() - startTime), "seconds")
-
-if __name__ == '__main__':
-    TH = Thresholding()
-    img = cv2.imread('./PicsEval/A1.jpg')
-    bImg = TH.binarize(img)
-
-    print(bImg)
-    cv2.imshow('b', bImg)
-
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
