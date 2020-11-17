@@ -69,8 +69,8 @@ class EuclideanDistance:
 
         inputCoordinates = data_normalized[6]
 
-        print("Data:", data_normalized)
-        print("input coordinates:", inputCoordinates)
+        #print("Data:", data_normalized)
+        #print("input coordinates:", inputCoordinates)
 
         # calculates the distance between the input coordinates and points
         distance_A_min = np.linalg.norm(data_normalized[0] - inputCoordinates)
@@ -97,6 +97,9 @@ class EuclideanDistance:
 
         print("Min. distance:", minDistance)
 
-        for key, value in handsigns.items():
-            if minDistance == value:
-                print("The gesture is:", key)
+        if minDistance < 0.07:
+            for key, value in handsigns.items():
+                if minDistance == value:
+                    print("The gesture is:", key)
+            else:
+                print("Neither A, B or C was detected.")
