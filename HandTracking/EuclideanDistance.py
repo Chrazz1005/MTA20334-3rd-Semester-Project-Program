@@ -97,7 +97,7 @@ class EuclideanDistance:
 
         print("Min. distance:", minDistance)
 
-        if minDistance < 0.07:
+        if minDistance < 0.1:
             for key, value in handsigns.items():
                 if minDistance == value:
                     print("The gesture is:", key)

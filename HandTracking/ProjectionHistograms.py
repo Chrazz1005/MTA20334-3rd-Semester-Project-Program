@@ -92,6 +92,8 @@ class ProjectionHistogram:
         lenHori = len(horiProject)
         maxHori = max(horiProject)
         sizeRatioHori = maxHori / lenHori
+
+        print('sizeRatioHori', sizeRatioHori)
         return sizeRatioHori
 
     #### Range for C (testet på 2 billeder); Horizontal: 120 - 200, Vertical: 240-260
@@ -103,6 +105,8 @@ class ProjectionHistogram:
         lenVert = len(vertiProject)
         maxVert = max(vertiProject)
         sizeRatioVert = maxVert / lenVert
+
+        print('sizeRatioVert', sizeRatioVert)
         return sizeRatioVert
 
     def checkMaximumRelations(self):
@@ -128,7 +132,7 @@ class ProjectionHistogram:
         ### C range: 1.8 - 2.2
         ### A range: 0.8 - 1.1
         ### B range: 1.1 - 1.5
-
+        print('heighDiffRelation:', heightDiffRelation)
         return heightDiffRelation
 
 
