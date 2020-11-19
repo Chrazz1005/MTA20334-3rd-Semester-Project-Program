@@ -11,11 +11,13 @@ class Compactness:
     def calculateCompactness(self):
         gc = GeometryCalculator(self.image)
         gc.cPoints()
+        # Calculating the area by multiplying the height with the width
         area = ((gc.wMaxY + 1 - gc.wMinY) * (gc.wMaxX + 1 - gc.wMinX))
+        # Compactness is calculated by taking 100 and dividing it with the area multiplied with all the white pixels
         compactness = round((100 / area) * gc.allWhitePixels)
         return compactness
 
-    # 77,85
+    
     def compactnessComparison(self):
         if self.calculateCompactness() in range(80, 85):
             handGesture = "A"
