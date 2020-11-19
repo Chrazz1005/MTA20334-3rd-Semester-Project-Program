@@ -1,25 +1,19 @@
-from GeometryCalculator import *
+from HandTracking.BoundingBox import *
 
 
 class AspectRatio:
     handGesture = ""
-    height = 0
-    width = 0
-    areal = 0
 
     def __init__(self, image):
         self.image = image
 
-    def calculateArea(self):
-        gc = GeometryCalculator(self.image)
-        gc.cPoints()
-        self.height = (gc.wMaxY - gc.wMinY) + 1
-        self.width = (gc.wMaxX - gc.wMinX) + 1
-        self.areal = (self.height * self.width)
-
     def calculateAspectRatio(self):
-        aspectRatio = (self.height / self.width)
-        return round(aspectRatio, 2)
+        height = self.image.shape[0]
+        width = self.image.shape[1]
+        print("H:", height, "W:", width)
+        aspectRatio = (height / width)
+        return aspectRatio
+
 
     def compareAspectRatio(self):
         handGesture = ""

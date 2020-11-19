@@ -38,10 +38,13 @@ if __name__ == '__main__':
         gr = GrassFire(binary)
         grass = gr.startGrassFire()
 
+        bb = BoundingBox(grass)
+        croppedImage = bb.cropImage()
 
-        cp = Compactness(grass)
-        ap = AspectRatio(grass)
-        ph = ProjectionHistogram(grass)
+        ap = AspectRatio(croppedImage)
+        cp = Compactness(croppedImage)
+
+        ph = ProjectionHistogram(croppedImage)
         cv2.imwrite("./DataSetPics/binary%d.jpg" % frameCount, grass)
         ed = EuclideanDistance()
         ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
