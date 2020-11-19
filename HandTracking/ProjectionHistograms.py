@@ -32,11 +32,11 @@ class ProjectionHistogram:
         for i in range(0, self.img.shape[0]):
             x_axis.append(i)
 
-        # plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
-        # plt.ylabel('Sum of white pixels in row y')
-        # plt.title('Vertical distribution', fontsize=15)
-        # plt.plot(x_axis, sumColsY)
-        # plt.show()
+        plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
+        plt.ylabel('Sum of white pixels in row y')
+        plt.title('Vertical distribution', fontsize=15)
+        plt.plot(x_axis, sumColsY)
+        plt.show()
 
         sumColsY = self.trimZeros(sumColsY)
         return sumColsY
@@ -56,11 +56,11 @@ class ProjectionHistogram:
         for a in range(0, self.img.shape[1]):
             x_axis.append(a)
 
-        # plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
-        # plt.ylabel('Sum of white pixels in col x')
-        # plt.title('Horizontal distribution', fontsize=15)
-        # plt.plot(x_axis, sumColsX)
-        # plt.show()
+        plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
+        plt.ylabel('Sum of white pixels in col x')
+        plt.title('Horizontal distribution', fontsize=15)
+        plt.plot(x_axis, sumColsX)
+        plt.show()
 
         sumColsX = self.trimZeros(sumColsX)
         return sumColsX
@@ -137,8 +137,10 @@ class ProjectionHistogram:
 
 
 if __name__ == '__main__':
-    img = cv2.imread('./PicsEval/A1B.jpg')
+    img = cv2.imread('./PicsEval/B6B.jpg')
     PH = ProjectionHistogram(img)
     print("maxHeightRelation:", PH.checkMaxHeightRelation())
-
+    cv2.imshow('i', img)
     print("Relation between maximums", PH.checkMaximumRelations())
+    cv2.waitKey()
+    cv2.destroyAllWindows()

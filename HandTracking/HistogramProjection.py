@@ -16,7 +16,8 @@ class HistogramProjection:
 
     def getHistogram_VProjection(self):  ### Gets a vertical projection of the white pixel distribution
 
-        img = self.splitImage()
+        #img = self.splitImage()
+        img = self.img
         (hY, wY) = img.shape[:2]
         sumColsY = []
 
@@ -35,17 +36,18 @@ class HistogramProjection:
         for i in range(0, img.shape[0]):
             x_axis.append(i)
 
-        plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
-        plt.ylabel('Sum of white pixels in row y')
-        plt.title('Vertical distribution', fontsize=15)
-        plt.plot(x_axis, sumColsY)
-        plt.show()
+        # plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
+        # plt.ylabel('Sum of white pixels in row y')
+        # plt.title('Vertical distribution', fontsize=15)
+        # plt.plot(x_axis, sumColsY)
+        # plt.show()
 
         return sumColsY
 
     def getHistogram_HProjection(self):  ### Gets a horizontal projection of the white pixel distribution
 
-        img = self.splitImage()
+        #img = self.splitImage()
+        img = self.img
         (hX, wX) = img.shape[:2]
         sumColsX = []
 
@@ -59,12 +61,12 @@ class HistogramProjection:
         x_axis = []
         for a in range(0, img.shape[1]):
             x_axis.append(a)
-
-        plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
-        plt.ylabel('Sum of white pixels in col x')
-        plt.title('Horizontal distribution', fontsize=15)
-        plt.plot(x_axis, sumColsX)
-        plt.show()
+        #
+        # plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
+        # plt.ylabel('Sum of white pixels in col x')
+        # plt.title('Horizontal distribution', fontsize=15)
+        # plt.plot(x_axis, sumColsX)
+        # plt.show()
 
         return sumColsX
 
@@ -228,8 +230,7 @@ class HistogramProjection:
         trimmedhori = self.trimZeros(listhori)
         cScore = 0
 
-        print('CHECK LIGE HER SEB', max(trimmedhori) / len(trimmedhori))
-        print('Check LIGE HER OGSÅ', max(trimmedvert) / len(trimmedvert))
+
         for i in range(0, int(len(trimmedvert) * 0.30)):
             # print('Første 30%:', trimmedvertvert[i])
             if trimmedvert[i] == max(trimmedvert[0:int(len(trimmedvert) * 0.30)]):
@@ -321,11 +322,11 @@ class HistogramProjection:
 
 
 if __name__ == '__main__':
-    imgA = cv2.imread('./PicsEval/A1B.jpg')
+    imgA = cv2.imread('./binary.png')
     imgA2 = cv2.imread('./PicsEval/A4B.jpg')
     imgA3 = cv2.imread('./PicsEval/A2B.jpg')
 
-    imgB = cv2.imread('./PicsEval/B3B.jpg')
+    imgB = cv2.imread('./binaryB.png')
     imgB2 = cv2.imread('./PicsEval/B4B.jpg')
     imgB3 = cv2.imread('./PicsEval/B6B.jpg')
     imgC = cv2.imread('./PicsEval/C4B.jpg')
@@ -334,11 +335,6 @@ if __name__ == '__main__':
     ProjectDist = HistogramProjection(imgA)
     ProjectDist.checkGesture()
 
-    ProjectDist = HistogramProjection(imgA2)
-    ProjectDist.checkGesture()
-
-    ProjectDist = HistogramProjection(imgA3)
-    ProjectDist.checkGesture()
 
     # cv2.imshow('C', imgC)
     # cv2.imshow('A', imgA)
