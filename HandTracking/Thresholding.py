@@ -46,17 +46,32 @@ class Thresholding:
         return image
 
     def binarize(self, image):
+        # Converts image to HSV color space (Manual conversion above).
         imageConverted = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        # Converts the inputted image to a nparray.
         npArray = np.array(np.asarray(imageConverted))
 
+        # Defines a range for what color to threshold.
         Range = [(30, 80), (0, 255), (0, 255)]
-        redColorRange = np.logical_and(Range[0][0] < npArray[:, :, 0], npArray[:, :, 0] < Range[0][1])
-        greenColorRange = np.logical_and(Range[1][0] < npArray[:, :, 1], npArray[:, :, 1] < Range[1][1])
-        blueColorRange = np.logical_and(Range[2][0] < npArray[:, :, 2], npArray[:, :, 2] < Range[2][1])
-        rgbRange = (redColorRange * greenColorRange * blueColorRange)
 
-        npArray[rgbRange] = 255
-        npArray[np.logical_not(rgbRange)] = 0
+        # Three conditional statements that use the np.logical_and to check for two conditions.
+        # if the color channel from nparray is within the above range it returns boolean.
+        # It does this for the hue, saturation and value
+        # This returns either True or False dependant on if it meets the condition.
+        hueColorRange = np.logical_and(Range[0][0] < npArray[:, :, 0], npArray[:, :, 0] < Range[0][1])
+        saturationColorRange = np.logical_and(Range[1][0] < npArray[:, :, 1], npArray[:, :, 1] < Range[1][1])
+        valueColorRange = np.logical_and(Range[2][0] < npArray[:, :, 2], npArray[:, :, 2] < Range[2][1])
 
-        r, g, b = cv2.split(npArray)
-        return r
+        # hsvRange is the array with only True or False values (True are the white pixels of the hand / False is the
+        # black pixels)
+        hsvRange = (hueColorRange * saturationColorRange * valueColorRange)
+
+        # Converts the entire array to exist of only 255 values
+        npArray[hsvRange] = 255
+
+        # All places in the hsvRange array where the value is false is changed to 0
+        npArray[np.logical_not(hsvRange)] = 0
+
+        # Split the channels and return one of the values to return a binary image
+        h, s, v = cv2.split(npArray)
+        return h
