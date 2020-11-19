@@ -14,20 +14,26 @@ class GeometryCalculator:
         self.image = image
 
     def cPoints(self):
+        # Define height and width from the constructor's image input.
         binaryImageHeight = self.image.shape[0]
         binaryImageWidth = self.image.shape[1]
 
+        # Loop through the image with y, x as the unpacked values.
         for y in range(0, binaryImageHeight):
             for x in range(0, binaryImageWidth):
+                # Every time the image iterates over a white pixel.
                 if self.image[y, x] == 255:
+                    # Count it and append the coordinates in separate arrays from both the y and x.
                     self.allWhitePixels += 1
                     self.whitePixelsY.append(y)
                     self.whitePixelsX.append(x)
                 else:
+                    # If the pixel is not white count it to the black pixels and append black coordinates instead.
                     self.allBlackPixels += 1
                     self.blackPixelsY.append(y)
                     self.blackPixelsX.append(x)
 
+        # Define maximum and minimum values from the white coordinate arrays
         self.wMaxY, self.wMinY = max(self.whitePixelsY), min(self.whitePixelsY)
         self.wMaxX, self.wMinX = max(self.whitePixelsX), min(self.whitePixelsX)
 
@@ -36,7 +42,7 @@ class GeometryCalculator:
 
         #cv2.rectangle(self.image, (self.wMaxX, self.wMaxY), (self.wMinX, self.wMinY), color=255, thickness=1)
 
-    def resetEveryFuckingThing(self):
+    def resetVariables(self):
         self.whitePixelCoords.clear()
         self.wMaxY, self.wMaxX = 0, 0
         self.wMinY, self.wMinX = 0, 0
