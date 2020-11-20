@@ -17,7 +17,6 @@ class Compactness:
         allWhitePixels = len(self.image[self.image == 255])
         # Compactness is calculated by taking 100 and dividing it with the area multiplied with all the white pixels
         compactness = round((100 / area) * allWhitePixels)
-        print(compactness)
         return compactness
 
 

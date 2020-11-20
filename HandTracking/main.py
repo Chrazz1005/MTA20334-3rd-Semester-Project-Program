@@ -46,6 +46,9 @@ if __name__ == '__main__':
             bb = BoundingBox(grass)
             croppedImage = bb.cropImage()
 
+            cv2.imshow("img", croppedImage)
+            cv2.waitKey(0)
+
             ap = AspectRatio(croppedImage)
             cp = Compactness(croppedImage)
             ph = ProjectionHistogram(croppedImage)
