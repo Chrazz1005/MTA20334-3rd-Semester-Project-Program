@@ -19,8 +19,8 @@ if __name__ == '__main__':
     # cameraHandler.grabFrame()
 
 
-    frame = cv2.imread('./PicsEval/C4.jpg', cv2.COLOR_BGR2HSV)
-    #vid = cv2.VideoCapture(0) # 0 = main intern
+    #frame = cv2.imread('./PicsEval/C4.jpg', cv2.COLOR_BGR2HSV)
+    vid = cv2.VideoCapture(0) # 0 = main intern
 
 
     frameCount = 0
@@ -32,16 +32,23 @@ if __name__ == '__main__':
 
         #frame = cv2.imread('./DataSetPics/frame2.jpg')
 
-        #ret, frame = vid.read()
+        ret, frame = vid.read()
         cv2.imshow('yes', frame)
         cv2.imwrite("./DataSetPics/frame%d.jpg" % frameCount, frame)
         th = Thresholding()
         binary = th.binarize(frame)
-        cv2.imshow("no", binary)
-        cv2.waitKey(0)
-        cb = CompoundOperations(binary)
-        CompoundOperations.erode(cb)
-        fuck = CompoundOperations.get_image(cb)
+
+        #EROSION! :::::
+        # cv2.imshow("no", binary)
+        # cv2.waitKey(0)
+        # cb = CompoundOperations(binary)
+        # CompoundOperations.erode(cb)
+        # fuck = CompoundOperations.get_image(cb)
+        # cv2.imshow('yes', fuck)
+        # cv2.waitKey(0)
+
+        gr = GrassFire(binary)
+        grass = gr.startGrassFire()
 
         if cv2.countNonZero(grass) == 0:
             # If all values are zero, the image is black.
@@ -50,8 +57,7 @@ if __name__ == '__main__':
             # If the image is not completely black, find features of BLOB:
             bb = BoundingBox(grass)
             croppedImage = bb.cropImage()
-        cv2.imshow('yes', fuck)
-        cv2.waitKey(0)
+
 
             # cv2.imshow("img", croppedImage)
             # cv2.waitKey(0)
@@ -70,8 +76,14 @@ if __name__ == '__main__':
         # quitting button you may use any
         # desired button of your choice
 
+        frameCount += 1
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
+    # After the loop release the cap object
+    vid.release()
 
+    # cv2.imshow('yes',grass)
     # cv2.waitKey(0)
     cv2.destroyAllWindows()
 
