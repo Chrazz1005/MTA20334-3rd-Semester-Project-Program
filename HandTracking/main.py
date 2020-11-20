@@ -53,8 +53,8 @@ if __name__ == '__main__':
         cv2.imshow('yes', fuck)
         cv2.waitKey(0)
 
-            cv2.imshow("img", croppedImage)
-            cv2.waitKey(0)
+            # cv2.imshow("img", croppedImage)
+            # cv2.waitKey(0)
 
             ap = AspectRatio(croppedImage)
             cp = Compactness(croppedImage)

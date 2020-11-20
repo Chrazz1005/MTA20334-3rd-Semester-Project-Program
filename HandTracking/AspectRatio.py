@@ -10,8 +10,13 @@ class AspectRatio:
     def calculateAspectRatio(self):
         height = self.image.shape[0]
         width = self.image.shape[1]
-        aspectRatio = (height / width)
-        return aspectRatio
+
+        if width != 0:
+            aspectRatio = (height / width)
+            return aspectRatio
+        else:
+            return "width = 0"
+
 
 
     def compareAspectRatio(self):

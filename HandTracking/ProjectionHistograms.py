@@ -41,7 +41,7 @@ class ProjectionHistogram:
         sumColsY = self.trimZeros(sumColsY)
         return sumColsY
 
-    def getHistogram_HProjection(self):  ### Gets a horizontal projection of the white pixel distribution
+    def getHistogram_HProjection(self):### Gets a horizontal projection of the white pixel distribution
         (hX, wX) = self.img.shape[:2]
         sumColsX = []
 
