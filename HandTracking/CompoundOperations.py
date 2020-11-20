@@ -33,8 +33,8 @@ class CompoundOperations:
 def erosion(img, y, x):
     if img[y, x].all() == 0: #.any() because we have 3 channels that are 0's.
         return 0
-    img_Height = img.shape[0]
-    img_Width = img.shape[1]
+    # img_Height = img.shape[0]
+    # img_Width = img.shape[1]
     # img[y,x] # y,x
     if img[y, x-1] == 255: # y,x-1
         if img[y, x + 1] == 255: # y,x+1
@@ -42,6 +42,13 @@ def erosion(img, y, x):
                 if img[y - 1, x] == 255: # y-1,x
                     return 255
     return 0
+
+        #hvis det skal være en firkant kernel, tilføj den her til if statement-hellet. ^
+    # if img[y - 1, x - 1] == 255:
+    #     if img[y - 1, x + 1] == 255:
+    #         if img[y + 1, x + 1] == 255:
+    #             if img[y + 1, x - 1] == 255:
+    #                 return 255
 
     #MÅSKE ET PROBLEM, hvis listen er for lang altså når den minuser 1 og + 1 hvis den går ud af billedet, men ved det ikke endnu.
 

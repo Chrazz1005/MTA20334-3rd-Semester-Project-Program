@@ -26,3 +26,10 @@ HandTracking/Modules/__pycache__/SobelEdge.cpython-36.pyc
 .idea/
 
 .idea/inspectionProfiles/Project_Default.xml
+HandTracking/__pycache__/AspectRatio.cpython-39.pyc
+
+HandTracking/__pycache__/Compactness.cpython-39.pyc
+
+HandTracking/__pycache__/CompoundOperations.cpython-39.pyc
+
+HandTracking/__pycache__/ProjectionHistograms.cpython-39.pyc
