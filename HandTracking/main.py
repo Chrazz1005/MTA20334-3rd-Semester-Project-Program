@@ -38,18 +38,23 @@ if __name__ == '__main__':
         gr = GrassFire(binary)
         grass = gr.startGrassFire()
 
-        bb = BoundingBox(grass)
-        croppedImage = bb.cropImage()
+        if cv2.countNonZero(grass) == 0:
+            # If all values are zero, the image is black.
+            print("No BLOBs were found.")
+        else:
+            # If the image is not completely black, find features of BLOB:
+            bb = BoundingBox(grass)
+            croppedImage = bb.cropImage()
 
-        ap = AspectRatio(croppedImage)
-        cp = Compactness(croppedImage)
+            ap = AspectRatio(croppedImage)
+            cp = Compactness(croppedImage)
+            ph = ProjectionHistogram(croppedImage)
 
-        ph = ProjectionHistogram(croppedImage)
-        cv2.imwrite("./DataSetPics/binary%d.jpg" % frameCount, grass)
-        ed = EuclideanDistance()
-        ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
-                    ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
-        # [aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum]
+            cv2.imwrite("./DataSetPics/binary%d.jpg" % frameCount, grass)
+            ed = EuclideanDistance()
+            ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
+                        ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
+            # [aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum]
 
         # the 'q' button is set as the
         # quitting button you may use any
