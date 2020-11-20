@@ -20,5 +20,7 @@ HandTracking/__pycache__/Thresholding.cpython-36.pyc
 HandTracking/Modules/__pycache__/GaussianBlur.cpython-36.pyc
 
 HandTracking/Modules/__pycache__/SobelEdge.cpython-36.pyc
+
+.idea/
 
 .idea/

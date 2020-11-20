@@ -2,9 +2,25 @@ import numpy as np
 import cv2
 
 
+class CompoundOperations:
+    def __init__(self, img, method):
+        self.img = img
+        dilutedArray = np.zeros(img.shape, dtype=np.uint8)
+
+        # if method is dilution:
+        #     self.method = dilution(img)
+
+        if method is erosion:
+            for x in range(img.shape[1] - 1):
+                for y in range(img.shape[0] - 1):
+                    dilutedArray[y, x] = erosion(img, y, x)
+            return dilutedArray
+
+
+
 # Hardcoding a cross-kernel 3x3 (1 in top, 3 in middle, 1 at bottom.)
 
-def erosion(img, y, x):
+def erosion(img, y=None, x=None):
     if img[y, x].all() == 0: #.any() because we have 3 channels that are 0's.
         return 0
     img_Height = img.shape[0]
@@ -21,15 +37,16 @@ def erosion(img, y, x):
 #Test-Picture:
 test = cv2.imread("binaryC.png")
 
-
-#Creating an array with 0's in the size of the picture.
-dilutedArray = np.zeros(test.shape,dtype=np.uint8)
+#
+# #Creating an array with 0's in the size of the picture.
+# dilutedArray = np.zeros(test.shape,dtype=np.uint8)
 
 #The loop that goes through the picture:
-for x in range(test.shape[1]-1):
-    for y in range(test.shape[0]-1):
-        dilutedArray[y,x] = erosion(test, y, x)
+# for x in range(test.shape[1]-1):
+#     for y in range(test.shape[0]-1):
+#         dilutedArray[y,x] = erosion(test, y, x)
 
+dilutedArray = CompoundOperations(test,erosion(test))
 
 #For "testing" to see how well it works:
 cv2.imshow("yay", dilutedArray)
