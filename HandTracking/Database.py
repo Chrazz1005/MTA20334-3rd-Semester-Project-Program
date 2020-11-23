@@ -20,8 +20,8 @@ class Database:
             print("----------------------------")
             print("Attempting to connect database..")
             self.client = pymongo.MongoClient(
-                "mongodb+srv://" + userName + ":" + userPassword + "@cluster0.jqbtc.mongodb.net/3rd_semester_project?retryWrites=true"
-                                                                   "&w=majority")
+                "mongodb+srv://" + userName + ":" + userPassword + "@cluster0.4cszv.mongodb.net/gesture_database"
+                                                                   "?retryWrites=true&w=majority")
             print("Connection established.")
         except:
             print("Connection failed.")
@@ -29,13 +29,13 @@ class Database:
         self.database = self.client["hand_gesture_data"]
         self.databaseCollection = self.database["3rd_semester_project"]
 
-    def addToTable(self, x1=0, x2=0, x3=0):
-        cursor = self.database.cursor()
-        cursor.execute("INSERT INTO " + self.sqlTable + " VALUES (?, ?, ?)", (x1, x2, x3))
-        self.database.commit()
-        print("Inserted the following into the database")
-        print("You inserted the following into the database:")
-        print(x1, x2, x3)
+    # def addToTable(self, x1=0, x2=0, x3=0):
+    #     cursor = self.database.cursor()
+    #     cursor.execute("INSERT INTO " + self.sqlTable + " VALUES (?, ?, ?)", (x1, x2, x3))
+    #     self.database.commit()
+    #     print("Inserted the following into the database")
+    #     print("You inserted the following into the database:")
+    #     print(x1, x2, x3)
 
     def mdbAdd(self, x1=0, x2=0, x3=0):
         dataToInsert = {
