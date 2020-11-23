@@ -38,7 +38,7 @@ class BoundingBox:
         self.height = (wMaxY - wMinY) + 1
         self.width = (wMaxX - wMinX) + 1
 
-        crop_img = self.image[wMinY:self.height, wMinX:self.width]
+        crop_img = self.image[wMinY:wMinY + self.height, wMinX:wMinX + self.width]
 
         print(self.height, self.width)
 
@@ -51,15 +51,11 @@ class BoundingBox:
 
         return crop_img
 
-
-
-
     def cPointsPrintResult(self):
         print("+---------------- PRINT DETAILS ----------------+")
         print("| MAX X:", self.wMaxX, "MAX Y:", self.wMaxY)
         print("| MIN X:", self.wMinX, "MIN Y:", self.wMinY)
         print("|------------------------------------------------")
-
 
     def startGeometryCalculations(self):
         self.cropImage()
