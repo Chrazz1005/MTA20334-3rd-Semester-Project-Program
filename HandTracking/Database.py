@@ -10,6 +10,8 @@ class Database:
     # resetIdentityField: Resets the id to start from 1
     # showDatabase: Shows the database in the console
 
+    databaseName = "gesture_database"
+
     def __init__(self):
         userName = input("DB Username: ")
         userPassword = input("DB Password: ")
@@ -20,13 +22,13 @@ class Database:
             print("----------------------------")
             print("Attempting to connect database..")
             self.client = pymongo.MongoClient(
-                "mongodb+srv://" + userName + ":" + userPassword + "@cluster0.4cszv.mongodb.net/gesture_database"
+                "mongodb+srv://" + userName + ":" + userPassword + "@cluster0.4cszv.mongodb.net/" + self.databaseName +
                                                                    "?retryWrites=true&w=majority")
             print("Connection established.")
         except:
             print("Connection failed.")
 
-        self.database = self.client["hand_gesture_data"]
+        self.database = self.client["gesture_database"]
         self.databaseCollection = self.database["3rd_semester_project"]
 
     # def addToTable(self, x1=0, x2=0, x3=0):
@@ -37,13 +39,21 @@ class Database:
     #     print("You inserted the following into the database:")
     #     print(x1, x2, x3)
 
-    def mdbAdd(self, x1=0, x2=0, x3=0):
+    def mdbAdd(self, dbId=1, x1=0, x2=0, x3=0, x4=0, x5=0, x6=0):
         dataToInsert = {
-            "A": x1,
-            "B": x2,
-            "C": x3
+            "_id": dbId,
+            "A_COMPACTNESS": x1,
+            "A_ASPECTRATIO": x2,
+            "B_COMPACTNESS": x3,
+            "B_ASPECTRATIO": x4,
+            "C_COMPACTNESS": x5,
+            "C_ASPECTRATIO": x6
         }
         self.databaseCollection.insert_one(dataToInsert)
+
+    def mbDelete(self):
+        deletedDocuments = self.databaseCollection.delete_many({})
+        print(deletedDocuments.deleted_count, "Documents were deleted.")
 
     def deleteEntireDatabase(self):
         cursor = self.database.cursor()

@@ -4,6 +4,7 @@ from AspectRatio import *
 from Compactness import *
 from GrassFire import *
 from Thresholding import *
+from database import *
 
 
 class DataSetManager:
@@ -56,6 +57,12 @@ class DataSetManager:
             else:
                 print("No Image(s) found", "ERROR: Wrong filetype")
 
+    def useDatabase(self):
+        db = Database()
+        for i in range(0, len(self.allCompactness)):
+            db.mdbAdd(i, self.allCompactness[i], self.allAspectRatio[i], self.allCompactness[i], self.allAspectRatio[i],
+                      self.allCompactness[i], self.allAspectRatio[i])
+
     def Average(self, length):
         avg = sum(length) / len(length)
         return avg
@@ -77,6 +84,7 @@ class DataSetManager:
         print("+------------------------------+")
 
 
-test = DataSetManager()
-test.dataLoop()
-test.printTestingResults()
+# test = DataSetManager()
+# test.dataLoop()
+# test.useDatabase()
+# test.printTestingResults()
