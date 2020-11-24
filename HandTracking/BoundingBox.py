@@ -22,7 +22,7 @@ class BoundingBox:
         for y in range(0, binaryImageHeight):
             for x in range(0, binaryImageWidth):
                 # Every time the image iterates over a white pixel.
-                if self.image[y, x] == 255:
+                if self.image[y, x] == 1:
                     # Count the amount of white pixels.
                     self.allWhitePixels += 1
                     # Define maximum and minimum values
@@ -39,8 +39,6 @@ class BoundingBox:
         self.width = (wMaxX - wMinX) + 1
 
         crop_img = self.image[wMinY:wMinY + self.height, wMinX:wMinX + self.width]
-
-        print(self.height, self.width)
 
         if self.debug:
             cv2.rectangle(self.image, (wMaxX, wMaxY), (wMinX, wMinY), color=150, thickness=1)

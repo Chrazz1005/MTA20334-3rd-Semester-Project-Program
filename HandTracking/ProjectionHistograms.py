@@ -38,7 +38,6 @@ class ProjectionHistogram:
         # plt.plot(x_axis, sumColsY)
         # plt.show()
 
-        sumColsY = self.trimZeros(sumColsY)
         return sumColsY
 
     def getHistogram_HProjection(self):### Gets a horizontal projection of the white pixel distribution
@@ -62,7 +61,6 @@ class ProjectionHistogram:
         # plt.plot(x_axis, sumColsX)
         # plt.show()
 
-        sumColsX = self.trimZeros(sumColsX)
         return sumColsX
 
     def trimZeros(self, list):  ##### Removing zeros from (empty space) from the data set
@@ -90,10 +88,11 @@ class ProjectionHistogram:
     def checkHoriSizeRatio(self):
         horiProject = self.getHistogram_HProjection()
         lenHori = len(horiProject)
-        maxHori = max(horiProject)
+        maxHori = max(horiProject)*255
         sizeRatioHori = maxHori / lenHori
 
-        print('sizeRatioHori', sizeRatioHori)
+        if self.__localDebug:
+            print('sizeRatioHori', sizeRatioHori)
         return sizeRatioHori
 
     #### Range for C (testet på 2 billeder); Horizontal: 120 - 200, Vertical: 240-260
@@ -103,21 +102,24 @@ class ProjectionHistogram:
     def checkVertSizeRatio(self):
         vertiProject = self.getHistogram_VProjection()
         lenVert = len(vertiProject)
-        maxVert = max(vertiProject)
+        maxVert = max(vertiProject)*255
         sizeRatioVert = maxVert / lenVert
 
-        print('sizeRatioVert', sizeRatioVert)
+        if self.__localDebug:
+            print('sizeRatioVert', sizeRatioVert)
         return sizeRatioVert
 
     def checkMaximumRelations(self):
         vertiProject = self.getHistogram_VProjection()
+        localMaximum = 0
+        globalMaximum = 0
 
         for i in range(0, int(len(vertiProject) * 0.30)):
             # print('Første 30%:', vertiProjectvert[i])
             if vertiProject[i] == max(vertiProject[0:int(len(vertiProject) * 0.30)]):
                 # print('Første 30% toppunktplacement:', vertiProject.index(vertiProject[i]))
                 # print('Første 30% toppunkt valye:', vertiProject[i])
-                lilleTop = [vertiProject.index(vertiProject[i]), vertiProject[i]]
+                localMaximum = [vertiProject.index(vertiProject[i]), vertiProject[i]]
 
         for i in range(int(len(vertiProject) * 0.30), len(vertiProject)):
 
@@ -125,22 +127,29 @@ class ProjectionHistogram:
                 # print('Sidste 70 % toppunktplacement:', vertiProject.index(vertiProject[i]))
                 # print('Sidste 70 % toppunkt value:', vertiProject[i])
 
-                storTop = [vertiProject.index(vertiProject[i]), vertiProject[i]]
+                globalMaximum = [vertiProject.index(vertiProject[i]), vertiProject[i]]
 
-        heightDiffRelation = storTop[1] / lilleTop[1]
+        if localMaximum and globalMaximum != 0:
+            heightDiffRelation = globalMaximum[1] / localMaximum[1]
+        else:
+            heightDiffRelation = 9999999
+            print("No Hand")
 
         ### C range: 1.8 - 2.2
         ### A range: 0.8 - 1.1
         ### B range: 1.1 - 1.5
-        print('heighDiffRelation:', heightDiffRelation)
+        if self.__localDebug:
+            print('heighDiffRelation:', heightDiffRelation)
         return heightDiffRelation
 
 
 if __name__ == '__main__':
     img = cv2.imread('./PicsEval/B6B.jpg')
     PH = ProjectionHistogram(img)
-    print("maxHeightRelation:", PH.checkMaxHeightRelation())
+    if PH.__localDebug:
+        print("maxHeightRelation:", PH.checkMaxHeightRelation())
     cv2.imshow('i', img)
-    print("Relation between maximums", PH.checkMaximumRelations())
+    if PH.__localDebug:
+        print("Relation between maximums", PH.checkMaximumRelations())
     cv2.waitKey()
     cv2.destroyAllWindows()

@@ -1,4 +1,4 @@
-from HandTracking.BoundingBox import *
+from BoundingBox import *
 
 
 class AspectRatio:
@@ -16,8 +16,6 @@ class AspectRatio:
             return aspectRatio
         else:
             return "width = 0"
-
-
 
     def compareAspectRatio(self):
         handGesture = ""

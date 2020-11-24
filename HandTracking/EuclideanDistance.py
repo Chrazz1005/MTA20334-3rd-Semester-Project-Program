@@ -3,7 +3,7 @@ import numpy as np
 
 
 class EuclideanDistance:
-    debug = True
+    debug = False
     # The intervals that determine which hand sign has been detected.
     aspectRatio_A_min = 2.04
     aspectRatio_A_max = 2.27
@@ -95,7 +95,8 @@ class EuclideanDistance:
                   "\nDistance to minimum C value:", round(distance_C_min, 2),
                   "\nDistance to maximum C value:", round(distance_C_max, 2), "\n")
 
-        print("Min. distance:", minDistance)
+        if self.debug:
+            print("Min. distance:", minDistance)
 
         if minDistance < 0.1:
             for key, value in handsigns.items():
@@ -103,4 +104,4 @@ class EuclideanDistance:
                     print("The gesture is:", key)
         else:
             print("Neither A, B or C was detected.")
-        print('-----------------------------------------------')
+        #print('-----------------------------------------------')
