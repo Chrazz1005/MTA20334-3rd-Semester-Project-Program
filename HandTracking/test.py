@@ -1,9 +1,9 @@
-from AspectRatio import *
-from Compactness import *
-from EuclideanDistance import *
-from ProjectionHistograms import *
-from Thresholding import *
-from GrassFire import *
+from HandTracking.AspectRatio import *
+from HandTracking.Compactness import *
+from HandTracking.EuclideanDistance import *
+from HandTracking.ProjectionHistograms import *
+from HandTracking.Thresholding import *
+from HandTracking.GrassFire import *
 
 
 def displayWebcam(mirror=False):

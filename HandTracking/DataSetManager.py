@@ -1,10 +1,10 @@
 import os
 from tqdm import tqdm
-from AspectRatio import *
-from Compactness import *
-from GrassFire import *
-from Thresholding import *
-from database import *
+from HandTracking.AspectRatio import *
+from HandTracking.Compactness import *
+from HandTracking.GrassFire import *
+from HandTracking.Thresholding import *
+from HandTracking.Database import *
 
 
 class DataSetManager:
