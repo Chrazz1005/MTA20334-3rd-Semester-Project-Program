@@ -52,8 +52,8 @@ class Thresholding:
         npArray = np.array(np.asarray(imageConverted))
 
         # Defines a range for what color to threshold.
-        Range = [(30, 80), (0, 255), (0, 255)]
-
+        Range = [(30, 60), (80, 255), (80, 255)]
+        #SebRange = [(30, 80), (0, 255), (0, 255)]
         # Three conditional statements that use the np.logical_and to check for two conditions.
         # if the color channel from nparray is within the above range it returns boolean.
         # It does this for the hue, saturation and value

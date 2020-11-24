@@ -1,4 +1,5 @@
 from HandTracking.AspectRatio import *
+from HandTracking.BoundingBox import *
 from HandTracking.Compactness import *
 from HandTracking.EuclideanDistance import *
 from HandTracking.ProjectionHistograms import *
@@ -18,7 +19,7 @@ def displayWebcam(mirror=False):
         if cv2.waitKey(1) == 27:
             break  # esc to quit
 
-        if cv2.countNonZero(t.binarize(img)) == 0:
+        if cv2.countNonZero(t.binarize(img)) < 100:
             # If all values are zero, the image is black.
             print("No BLOBs were found.")
         else:
