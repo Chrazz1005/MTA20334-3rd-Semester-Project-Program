@@ -24,10 +24,10 @@ class DataSetManager:
         userInput = input("Save Path:" + "\n")
         self.savePath = userInput
         print("+-------------------------+")
-        print("| Image Loop Started.     |")
-        print("| Directory:", self.testDirectory, "   |")
-        print("| Save Path:", self.savePath, " |")
-        print("| ----------------------- |")
+        print("| Image Loop Started.")
+        print("| Directory:", self.testDirectory,)
+        print("| Save Path:", self.savePath)
+        print("+-------------------------+")
         print("| Images in Directory:", len(os.listdir(self.testDirectory)), "|")
         print("+-------------------------+")
         for images in tqdm(os.listdir(self.testDirectory)):
