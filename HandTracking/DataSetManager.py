@@ -2,17 +2,24 @@ import os
 from tqdm import tqdm
 from HandTracking.AspectRatio import *
 from HandTracking.Compactness import *
+from HandTracking.EuclideanDistance import *
 from HandTracking.GrassFire import *
+from HandTracking.ProjectionHistograms import *
 from HandTracking.Thresholding import *
 from HandTracking.Database import *
+from HandTracking.BoundingBox import *
 
 
 class DataSetManager:
     testDirectory = ""
     savePath = ""
     picturesCount = 0
-    allCompactness = []
-    allAspectRatio = []
+    compactnessResult = []
+    aspectRatioResult = []
+    histogramMaxHeightRelation = []
+    histogramHorizontalRatio = []
+    histogramVerticalRatio = []
+    histogramMaxHeightDiffRelation = []
     executionTime = time.time()
     enableGrassFire = True
     calculateCompactness = True
@@ -33,23 +40,46 @@ class DataSetManager:
         for images in tqdm(os.listdir(self.testDirectory)):
             if images.endswith(".jpg") or images.endswith(".png"):
                 nonBinarized = cv2.imread(self.testDirectory + "/" + str(images), cv2.IMREAD_COLOR)
+
+                print("Starting Threshold...")
                 thresh = Thresholding()
                 binarized = thresh.binarize(nonBinarized)
-                if self.enableGrassFire:
-                    gf = GrassFire(binarized)
-                    gf.startGrassFire()
+                print("Threshold finished.")
 
-                gc = GeometryCalculator(binarized)
-                gc.resetVariables()
+                print("Starting GrassFire...")
+                gr = GrassFire(binarized)
+                grassArray = gr.startGrassFire()
+                print("GrassFire finished.")
 
-                if self.calculateCompactness:
-                    c = Compactness(binarized)
-                    self.allCompactness.append(c.calculateCompactness())
+                print("Starting BoundingBox...")
+                bb = BoundingBox(grassArray)
+                croppedImage = bb.cropImage()
+                print("BoundingBox finished.")
 
-                if self.calculateAspectRatio:
-                    ar = AspectRatio(binarized)
-                    ar.calculateArea()
-                    self.allAspectRatio.append(ar.calculateAspectRatio())
+                print("Starting AspectRatio...")
+                ap = AspectRatio(croppedImage)
+                self.aspectRatioResult.append(ap.calculateAspectRatio())
+                print("AspectRatio finished.")
+
+                print("Starting Compactness...")
+                cp = Compactness(croppedImage)
+                self.compactnessResult.append(cp.calculateCompactness())
+                print("Compactness finished.")
+
+                print("Starting ProjectionHistogram...")
+                ph = ProjectionHistogram(croppedImage)
+                self.histogramMaxHeightRelation.append(ph.checkMaxHeightRelation())
+                self.histogramHorizontalRatio.append(ph.checkHoriSizeRatio())
+                self.histogramVerticalRatio.append(ph.checkVertSizeRatio())
+                self.histogramMaxHeightDiffRelation.append(ph.checkMaximumRelations())
+                print("ProjectionHistogram finished.")
+
+                print("Starting EuclideanDistance...")
+                # cv2.imwrite("./DataSetPics/binary%d.jpg" % frameCount, grass)
+                ed = EuclideanDistance()
+                ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
+                            ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
+                print("EuclideanDistance finished.")
 
                 # print("Image " + str(images) + " Is Done \n" + "Proceeding... \n")
                 self.picturesCount += 1
@@ -84,7 +114,6 @@ class DataSetManager:
         print("+------------------------------+")
 
 
-# test = DataSetManager()
-# test.dataLoop()
-# test.useDatabase()
-# test.printTestingResults()
+test = DataSetManager()
+test.dataLoop()
+test.printTestingResults()
