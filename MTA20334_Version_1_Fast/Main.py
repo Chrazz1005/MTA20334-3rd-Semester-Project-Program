@@ -1,8 +1,8 @@
-from AspectRatio import *
-from Compactness import *
-from EuclideanDistance import *
-from ProjectionHistograms import *
-from Thresholding import *
+from MTA20334_Version_1_Fast.AspectRatio import *
+from MTA20334_Version_1_Fast.Compactness import *
+from MTA20334_Version_1_Fast.EuclideanDistance import *
+from MTA20334_Version_1_Fast.ProjectionHistograms import *
+from MTA20334_Version_1_Fast.Thresholding import *
 
 
 def displayWebcam(mirror=False):

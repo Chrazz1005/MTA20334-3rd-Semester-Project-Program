@@ -2,9 +2,11 @@ import time
 
 import cv2
 import numpy as np
+import sys
 
 
 class GrassFire:
+    #np.set_printoptions(threshold=sys.maxsize)
 
     def __init__(self, img):
         self.img = img
@@ -142,7 +144,7 @@ class GrassFire:
         # When the value is not the number of the greatest blob, change to zero.
         self.arr[self.arr != self.blob_number_greatest] = 0
         # Change the number to 1, such that the array consists of 0's and 1's, where 1 is the greatest blob.
-        self.arr = self.arr / self.blob_number_greatest
+        self.arr = (self.arr / self.blob_number_greatest)*255
         #print("GrassFire: greatestBlob time: %s" % round((time.time() - greatestBlobTime), 2), "seconds")
 
         return self.arr

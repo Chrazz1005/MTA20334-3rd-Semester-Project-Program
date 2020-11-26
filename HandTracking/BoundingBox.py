@@ -22,7 +22,7 @@ class BoundingBox:
         for y in range(0, binaryImageHeight):
             for x in range(0, binaryImageWidth):
                 # Every time the image iterates over a white pixel.
-                if self.image[y, x] == 1:
+                if self.image[y, x] == 255:
                     # Count the amount of white pixels.
                     self.allWhitePixels += 1
                     # Define maximum and minimum values

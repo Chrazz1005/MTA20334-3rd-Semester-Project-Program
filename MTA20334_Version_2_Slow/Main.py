@@ -1,10 +1,10 @@
-from AspectRatio import *
-from BoundingBox import *
-from Compactness import *
-from EuclideanDistance import *
-from ProjectionHistograms import *
-from Thresholding import *
-from GrassFire import *
+from MTA20334_Version_2_Slow.AspectRatio import *
+from MTA20334_Version_2_Slow.BoundingBox import *
+from MTA20334_Version_2_Slow.Compactness import *
+from MTA20334_Version_2_Slow.EuclideanDistance import *
+from MTA20334_Version_2_Slow.ProjectionHistograms import *
+from MTA20334_Version_2_Slow.Thresholding import *
+from MTA20334_Version_2_Slow.GrassFire import *
 
 
 def displayWebcam(mirror=False):

@@ -40,7 +40,7 @@ class ProjectionHistogram:
 
         return sumColsY
 
-    def getHistogram_HProjection(self):### Gets a horizontal projection of the white pixel distribution
+    def getHistogram_HProjection(self):  ### Gets a horizontal projection of the white pixel distribution
         (hX, wX) = self.img.shape[:2]
         sumColsX = []
 
@@ -88,7 +88,7 @@ class ProjectionHistogram:
     def checkHoriSizeRatio(self):
         horiProject = self.getHistogram_HProjection()
         lenHori = len(horiProject)
-        maxHori = max(horiProject)*255
+        maxHori = max(horiProject) * 255
         sizeRatioHori = maxHori / lenHori
 
         if self.__localDebug:
@@ -102,7 +102,7 @@ class ProjectionHistogram:
     def checkVertSizeRatio(self):
         vertiProject = self.getHistogram_VProjection()
         lenVert = len(vertiProject)
-        maxVert = max(vertiProject)*255
+        maxVert = max(vertiProject) * 255
         sizeRatioVert = maxVert / lenVert
 
         if self.__localDebug:
