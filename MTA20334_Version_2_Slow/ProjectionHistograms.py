@@ -88,7 +88,7 @@ class ProjectionHistogram:
     def checkHoriSizeRatio(self):
         horiProject = self.getHistogram_HProjection()
         lenHori = len(horiProject)
-        maxHori = max(horiProject) * 255
+        maxHori = max(horiProject)
         sizeRatioHori = maxHori / lenHori
 
         if self.__localDebug:
