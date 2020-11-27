@@ -7,7 +7,7 @@ from HandTracking.EuclideanDistance import *
 from HandTracking.GrassFire import *
 from HandTracking.ProjectionHistograms import *
 from HandTracking.Thresholding import *
-from HandTracking.Database import *
+# from HandTracking.Database import *
 from HandTracking.BoundingBox import *
 
 
@@ -65,12 +65,12 @@ class DataSetManager:
 
                 # cv2.imwrite("./DataSetPics/binary%d.jpg" % frameCount, grass)
                 ed = EuclideanDistance()
-                ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
-                            ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
+                key = ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
+                                  ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
 
                 # print("Image " + str(images) + " Is Done \n" + "Proceeding... \n")
                 self.picturesCount += 1
-                cv2.imwrite(os.path.join(self.savePath, "Binarized_" + str(images)), croppedImage)
+                cv2.imwrite(os.path.join(self.savePath, "Binarized_" + key + str(images)), croppedImage)
             else:
                 print("No Image(s) found", "ERROR: Wrong filetype")
 
@@ -97,7 +97,7 @@ class DataSetManager:
             avg = sum(self.normalizeData()[i]) / len(self.normalizeData()[i])
             for j in range(0, len(self.normalizeData())):
                 zum.append(sum(pow(self.normalizeData()[j] - avg, 2)))
-            n = len(self.normalizeData()[i])-1
+            n = len(self.normalizeData()[i]) - 1
             sd.append(math.sqrt(zum[i] / n))
 
         return sd

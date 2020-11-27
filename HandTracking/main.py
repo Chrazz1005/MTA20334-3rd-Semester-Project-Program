@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+
+from HandTracking.BoundingBox import BoundingBox
 from HandTracking.CameraHandler import *
 from HandTracking.Modules.SobelEdge import *
 from HandTracking.GrassFire import *
