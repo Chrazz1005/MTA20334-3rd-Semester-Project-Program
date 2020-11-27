@@ -2,9 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
-
 class HistogramProjection:
-    __localDebug = False
+    __localDebug = True
 
     def __init__(self, img):
         self.img = img
@@ -32,15 +31,19 @@ class HistogramProjection:
             print('Vertical distribution:', sumColsY)
             print('length vertical array:', len(sumColsY))
 
+        sumColsY = self.trimZeros(sumColsY)
         x_axis = []
-        for i in range(0, img.shape[0]):
+        for i in range(0, len(sumColsY)):
             x_axis.append(i)
 
-        # plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
-        # plt.ylabel('Sum of white pixels in row y')
-        # plt.title('Vertical distribution', fontsize=15)
-        # plt.plot(x_axis, sumColsY)
-        # plt.show()
+
+
+
+        plt.xlabel('Pixel No. (ranging from 0 to the length of y-axis of the image)')
+        plt.ylabel('Sum of white pixels in row y')
+        plt.title('Vertical distribution', fontsize=15)
+        plt.plot(x_axis, sumColsY)
+        plt.show()
 
         return sumColsY
 
@@ -58,15 +61,20 @@ class HistogramProjection:
         if self.__localDebug:
             print('Horizontal distribution:', sumColsX)
             print('length horizontal array:', len(sumColsX))
+
+        sumColsX = self.trimZeros(sumColsX)
+
         x_axis = []
-        for a in range(0, img.shape[1]):
+        for a in range(0, len(sumColsX)):
             x_axis.append(a)
-        #
-        # plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
-        # plt.ylabel('Sum of white pixels in col x')
-        # plt.title('Horizontal distribution', fontsize=15)
-        # plt.plot(x_axis, sumColsX)
-        # plt.show()
+
+
+
+        plt.xlabel('Pixel No. (ranging from 0 to the length of x-axis of the image)')
+        plt.ylabel('Sum of white pixels in col x')
+        plt.title('Horizontal distribution', fontsize=15)
+        plt.plot(x_axis, sumColsX)
+        plt.show()
 
         return sumColsX
 
@@ -106,8 +114,8 @@ class HistogramProjection:
         return sortToppunkter
 
     def checkIfB(self, listVert, listHori):
-        trimVert = self.trimZeros(listVert)
-        trimHori = self.trimZeros(listHori)
+        trimVert = listVert
+        trimHori = listHori
 
         bScore = 0
 
@@ -130,7 +138,7 @@ class HistogramProjection:
         if 0.35 < maxHeightRelation < 0.6:
             bScore += 1
             if self.__localDebug:
-                print('aScore from relation between max heights of the two distributions')
+                print('bScore from relation between max heights of the two distributions')
 
         lenHori = len(trimHori)
         lenVert = len(trimVert)
@@ -143,26 +151,26 @@ class HistogramProjection:
         if 300 <= distRatioHori <= 500 and 95 <= distRatioVert <= 150:
             bScore += 1
             if self.__localDebug:
-                print('aScore from ratios of max height and length of the two distributions')
+                print('bScore from ratios of max height and length of the two distributions')
 
         medianHori = trimHori[int(len(trimHori) / 2)]
         if medianHori > max(trimHori) * 0.90:
             bScore += 1
             if self.__localDebug:
-                print('aScore from median being in the top 90%')
+                print('bScore from median being in the top 90%')
 
         lengRelation = len(trimVert) / len(trimHori)
         if 1.4 < lengRelation < 2.1:
             bScore += 1
             if self.__localDebug:
-                print('aScore from relationship between vertical and horizontal length')
+                print('bScore from relationship between vertical and horizontal length')
 
         print('bScore:', bScore)
         return bScore
 
     def checkIfA(self, listvert, listhori):
-        trimmedVert = self.trimZeros(listvert)
-        trimmedHori = self.trimZeros(listhori)
+        trimmedVert = listvert
+        trimmedHori = listhori
         aScore = 0
 
         lenVert = len(trimmedVert)
@@ -180,26 +188,27 @@ class HistogramProjection:
         if trimmedVert.index(max(trimmedVert)) < len(trimmedVert) * 0.25:
             aScore += 1
             if self.__localDebug:
-                print('bScore from toppoint being placed in first 25% of distribution')
+                print('aScore from toppoint being placed in first 25% of distribution')
 
         topLenRelation = max(trimmedHori) / len(
             trimmedHori)  ###Relation between the toppoint and the length of the horizontal distribution
         if 280 < topLenRelation < 310:
             aScore += 1
             if self.__localDebug:
-                print('bScore from relation between the toppoint and the length of the horizontal distribution')
+                print('aScore from relation between the toppoint and the length of the horizontal distribution')
 
         maxHeightRelation = max(trimmedVert) / max(trimmedHori)
         if 0.6 <= maxHeightRelation <= 0.8:
             aScore += 1
             if self.__localDebug:
-                print('bScore from relation between max values in the two distributions')
+                print('aScore from relation between max values in the two distributions')
 
         for i in range(0, int(len(trimmedVert) * 0.30)):
             # print('Første 30%:', trimmedvertvert[i])
             if trimmedVert[i] == max(trimmedVert[0:int(len(trimmedVert) * 0.30)]):
                 # print('Første 30% toppunktplacement:', trimmedVert.index(trimmedVert[i]))
                 # print('Første 30% toppunkt value:', trimmedVert[i])
+
                 firstTop = [trimmedVert.index(trimmedVert[i]), trimmedVert[i]]
 
         for i in range(int(len(trimmedVert) * 0.30), len(trimmedVert)):
@@ -215,7 +224,7 @@ class HistogramProjection:
         if 0.18 <= distTopsnLengthRelation <= 0.32:
             aScore += 1
             if self.__localDebug:
-                print('bScore from relation between first two tops and the full length of the distribution')
+                print('aScore from relation between first two tops and the full length of the distribution')
 
         print('aScore:', aScore)
         return aScore
@@ -226,8 +235,8 @@ class HistogramProjection:
         # - Toppunkter af relativ højde til de omkringliggende
         # - Toppunkter er af relativ afstand til hinanden
 
-        trimmedvert = self.trimZeros(listvert)  # Removing 0's
-        trimmedhori = self.trimZeros(listhori)
+        trimmedvert = listvert  # Removing 0's
+        trimmedhori = listhori
         cScore = 0
 
 
@@ -322,20 +331,42 @@ class HistogramProjection:
 
 
 if __name__ == '__main__':
-    imgA = cv2.imread('./binary.png')
-    imgA2 = cv2.imread('./PicsEval/A4B.jpg')
-    imgA3 = cv2.imread('./PicsEval/A2B.jpg')
+    imgA = cv2.imread('./PicsEval/A1B.jpg')
+    imgA2 = cv2.imread('./PicsEval/A2B.jpg')
+    imgA3 = cv2.imread('./PicsEval/A3B.jpg')
+    imgA4 = cv2.imread('./PicsEval/A4B.jpg')
+    imgA5 = cv2.imread('./PicsEval/A5B.jpg')
+    imgA6 = cv2.imread('./PicsEval/A6B.jpg')
+    imgA7 = cv2.imread('./binary.png')
 
-    imgB = cv2.imread('./binaryB.png')
+
+    imgB = cv2.imread('./PicsEval/B3B.jpg')
     imgB2 = cv2.imread('./PicsEval/B4B.jpg')
     imgB3 = cv2.imread('./PicsEval/B6B.jpg')
+    imgB4 = cv2.imread('./binaryB.png')
     imgC = cv2.imread('./PicsEval/C4B.jpg')
     imgC2 = cv2.imread('./PicsEval/C6B.jpg')
 
     ProjectDist = HistogramProjection(imgA)
     ProjectDist.checkGesture()
 
+    ProjectDist1 = HistogramProjection(imgA2)
+    ProjectDist1.checkGesture()
 
+    ProjectDist2 = HistogramProjection(imgA3)
+    ProjectDist2.checkGesture()
+
+    ProjectDist3 = HistogramProjection(imgA4)
+    ProjectDist3.checkGesture()
+
+    ProjectDist4 = HistogramProjection(imgA5)
+    ProjectDist4.checkGesture()
+
+    ProjectDist5 = HistogramProjection(imgA6)
+    ProjectDist5.checkGesture()
+
+    ProjectDist6 = HistogramProjection(imgA7)
+    # ProjectDist6.checkGesture()
     # cv2.imshow('C', imgC)
     # cv2.imshow('A', imgA)
     # cv2.imshow('B', imgB)
