@@ -10,9 +10,13 @@ class Thresholding:
     # x, y = (image > limit).nonzero()
     # vals = image[x, y]
 
+    def splitImage(self, image):
+        r, g, b = cv2.split(image)
+        return r
+
     def convertToHSV(self, image):
-        for y, row in enumerate(image):
-            for x, col in enumerate(row):
+        for x, row in enumerate(image):
+            for y, col in enumerate(row):
                 red = col[2] / 255
                 green = col[1] / 255
                 blue = col[0] / 255
@@ -37,7 +41,7 @@ class Thresholding:
                 else:
                     saturation = delta / maximum * 255
 
-                image[y, x] = [hue / 2, round(saturation), round(value)]
+                image[x, y] = [hue / 2, round(saturation), round(value)]
 
         return image
 
@@ -48,8 +52,8 @@ class Thresholding:
         npArray = np.array(np.asarray(imageConverted))
 
         # Defines a range for what color to threshold.
-        Range = [(30, 60), (80, 255), (80, 255)]
-        # SebRange = [(30, 80), (0, 255), (0, 255)]
+        Range = [(30, 60), (50, 255), (50, 255)]
+        #SebRange = [(30, 80), (0, 255), (0, 255)]
         # Three conditional statements that use the np.logical_and to check for two conditions.
         # if the color channel from nparray is within the above range it returns boolean.
         # It does this for the hue, saturation and value
