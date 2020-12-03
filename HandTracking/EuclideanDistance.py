@@ -140,18 +140,18 @@ class EuclideanDistance:
     lmaxdiff_Cmax = lmaxdiff_Cavg + lmaxdiff_Cstd
 
 
-    A_min = np.array((aspectRatio_A_min, compactness_A_min, heightRelation_A_min, verticalRatio_A_min,
-                      horizontalRatio_A_min, localMaximum_A_min))
-    A_max = np.array((aspectRatio_A_max, compactness_A_max, heightRelation_A_max, verticalRatio_A_max,
-                      horizontalRatio_A_max, localMaximum_A_max))
-    B_min = np.array((aspectRatio_B_min, compactness_B_min, heightRelation_B_min, verticalRatio_B_min,
-                      horizontalRatio_B_min, localMaximum_B_min))
-    B_max = np.array((aspectRatio_B_max, compactness_B_max, heightRelation_B_max, verticalRatio_B_max,
-                      horizontalRatio_B_max, localMaximum_B_max))
-    C_min = np.array((aspectRatio_C_min, compactness_C_min, heightRelation_C_min, verticalRatio_C_min,
-                      horizontalRatio_C_min, localMaximum_C_min))
-    C_max = np.array((aspectRatio_C_max, compactness_C_max, heightRelation_C_max, verticalRatio_C_max,
-                      horizontalRatio_C_max, localMaximum_C_max))
+    A_min = np.array((ar_Amin, c_Amin, hr_Amin, vertihr_Amin,
+                      horihr_Amin, lmaxdiff_Amin))
+    A_max = np.array((ar_Amax, c_Amax, hr_Amax, vertihr_Amax,
+                      horihr_Amax, lmaxdiff_Amax))
+    B_min = np.array((ar_Bmin, c_Bmin, hr_Bmin, vertihr_Bmin,
+                      horihr_Bmin, lmaxdiff_Bmin))
+    B_max = np.array((ar_Bmax, c_Bmax, hr_Bmax, vertihr_Bmax,
+                      horihr_Bmax, lmaxdiff_Bmax))
+    C_min = np.array((ar_Cmin, c_Cmin, hr_Cmin, vertihr_Cmin,
+                      horihr_Cmin, lmaxdiff_Cmin))
+    C_max = np.array((ar_Cmax, c_Cmax, hr_Cmax, vertihr_Cmax,
+                      horihr_Cmax, lmaxdiff_Cmax))
 
     def distance(self, aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio, localMaximum):
         inputCoordinates = np.array((aspectRatio, compactness, heightRelation, verticalRatio, horizontalRatio,

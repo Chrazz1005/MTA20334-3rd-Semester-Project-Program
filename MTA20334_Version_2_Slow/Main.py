@@ -8,6 +8,7 @@ from MTA20334_Version_2_Slow.GrassFire import *
 
 
 def displayWebcam(mirror=False):
+    framecount = 0
     t = Thresholding()
     cam = cv2.VideoCapture(0)
     while True:
@@ -35,10 +36,13 @@ def displayWebcam(mirror=False):
 
             ph = ProjectionHistogram(croppedImage)
 
-            # cv2.imwrite("./DataSetPics/binary%d.jpg" % frameCount, grass)
+            cv2.imwrite("./Datasetslow/grass%d.jpg" % framecount, grassArray)
+            cv2.imwrite("./Datasetslow/bb%d.jpg" % framecount, croppedImage)
             ed = EuclideanDistance()
             ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
                         ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
+
+            framecount += 1
 
     cv2.destroyAllWindows()
 
