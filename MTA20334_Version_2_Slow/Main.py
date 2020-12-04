@@ -1,14 +1,14 @@
 from MTA20334_Version_2_Slow.AspectRatio import *
 from MTA20334_Version_2_Slow.BoundingBox import *
 from MTA20334_Version_2_Slow.Compactness import *
-from MTA20334_Version_2_Slow.EuclideanDistance import *
+from MTA20334_Version_2_Slow.DataCollection import *
+from MTA20334_Version_2_Slow.GrassFire import *
 from MTA20334_Version_2_Slow.ProjectionHistograms import *
 from MTA20334_Version_2_Slow.Thresholding import *
-from MTA20334_Version_2_Slow.GrassFire import *
 
 
 def displayWebcam(mirror=False):
-    framecount = 0
+    iterations = 0
     t = Thresholding()
     cam = cv2.VideoCapture(0)
     while True:
@@ -36,13 +36,46 @@ def displayWebcam(mirror=False):
 
             ph = ProjectionHistogram(croppedImage)
 
-            cv2.imwrite("./Datasetslow/grass%d.jpg" % framecount, grassArray)
-            cv2.imwrite("./Datasetslow/bb%d.jpg" % framecount, croppedImage)
+            # cv2.imwrite("./DataSetPics/binary%d.jpg" % frameCount, grass)
             ed = EuclideanDistance()
-            ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
-                        ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
+            key = ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
+                              ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
 
-            framecount += 1
+            asp = ap.calculateAspectRatio()
+            cmp = cp.calculateCompactness()
+            mhr = ph.checkMaxHeightRelation()
+            mr = ph.checkMaximumRelations()
+            vsr = ph.checkVertSizeRatio()
+            hsr = ph.checkHoriSizeRatio()
+
+            dc = DataCollection()
+            dc.content.append(key)
+            dc.aspList.append(asp)
+            dc.cmpList.append(cmp)
+            dc.mhrList.append(mhr)
+            dc.mrList.append(mr)
+            dc.vsrList.append(vsr)
+            dc.hsrList.append(hsr)
+            dc.mhrColumnFnc()
+            dc.mrColumnFnc()
+            dc.vsrColumnFnc()
+            dc.hsrColumnFnc()
+
+            if iterations >= 30:
+                dc.startDataCollection()
+                dc.dataCollector()
+                dc.aspColumnFnc()
+                dc.cmpColumnFnc()
+                dc.hitMissColumn()
+                dc.accuracyColumn()
+                dc.hitsColumn()
+                dc.missColumn()
+                dc.closeDocument()
+
+            iterations += 1
+
+            cv2.imshow("Binarized Webcam", t.binarize(img))
+            cv2.waitKey(0)
 
     cv2.destroyAllWindows()
 
