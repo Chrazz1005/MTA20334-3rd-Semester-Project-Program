@@ -142,3 +142,16 @@ class DataCollection:
     def startDataCollection(self):
         self.gestureSequence()
         self.idColumn()
+        self.dataCollector()
+        self.aspColumnFnc()
+        self.cmpColumnFnc()
+        self.hitMissColumn()
+        self.accuracyColumn()
+        self.hitsColumn()
+        self.missColumn()
+
+    def createColumns(self):
+        self.mhrColumnFnc()
+        self.mrColumnFnc()
+        self.vsrColumnFnc()
+        self.hsrColumnFnc()

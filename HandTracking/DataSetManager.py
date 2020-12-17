@@ -9,6 +9,7 @@ from HandTracking.ProjectionHistograms import *
 from HandTracking.Thresholding import *
 # from HandTracking.Database import *
 from HandTracking.BoundingBox import *
+from MTA20334_Version_2_Slow.DataCollection import DataCollection
 
 
 class DataSetManager:
@@ -25,6 +26,7 @@ class DataSetManager:
     enableGrassFire = True
     calculateCompactness = True
     calculateAspectRatio = True
+    iteration = 0
 
     def dataLoop(self):
         userInput = input("Image Directory:" + "\n")
@@ -38,6 +40,7 @@ class DataSetManager:
         print("+-------------------------+")
         print("| Images in Directory:", len(os.listdir(self.testDirectory)))
         print("+-------------------------+")
+        dc = DataCollection()
         for images in tqdm(os.listdir(self.testDirectory)):
             if images.endswith(".jpg") or images.endswith(".png"):
                 nonBinarized = cv2.imread(self.testDirectory + "/" + str(images), cv2.IMREAD_COLOR)
@@ -68,11 +71,34 @@ class DataSetManager:
                 key = ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
                                   ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
 
+                asp = ap.calculateAspectRatio()
+                cmp = cp.calculateCompactness()
+                mhr = ph.checkMaxHeightRelation()
+                mr = ph.checkMaximumRelations()
+                vsr = ph.checkVertSizeRatio()
+                hsr = ph.checkHoriSizeRatio()
+
+
+                dc.content.append(key)
+                dc.aspList.append(asp)
+                dc.cmpList.append(cmp)
+                dc.mhrList.append(mhr)
+                dc.mrList.append(mr)
+                dc.vsrList.append(vsr)
+                dc.hsrList.append(hsr)
+                dc.createColumns()
+
+                dc.startDataCollection()
+
                 # print("Image " + str(images) + " Is Done \n" + "Proceeding... \n")
                 self.picturesCount += 1
                 cv2.imwrite(os.path.join(self.savePath, "Binarized_" + key + str(images)), croppedImage)
+
+                self.iteration += 1
             else:
                 print("No Image(s) found", "ERROR: Wrong filetype")
+        dc.closeDocument()
+
 
     def useDatabase(self):
         db = Database()

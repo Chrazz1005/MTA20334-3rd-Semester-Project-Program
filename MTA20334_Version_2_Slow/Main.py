@@ -57,21 +57,10 @@ def displayWebcam(mirror=False):
             dc.mrList.append(mr)
             dc.vsrList.append(vsr)
             dc.hsrList.append(hsr)
-            dc.mhrColumnFnc()
-            dc.mrColumnFnc()
-            dc.vsrColumnFnc()
-            dc.hsrColumnFnc()
+            dc.createColumns()
 
             if iterations >= 29:
                 dc.startDataCollection()
-                dc.dataCollector()
-                dc.aspColumnFnc()
-                dc.cmpColumnFnc()
-                dc.hitMissColumn()
-                dc.accuracyColumn()
-                dc.hitsColumn()
-                dc.missColumn()
-                dc.closeDocument()
                 print("Document was Saved! FUCK YES!!")
 
             iterations += 1
