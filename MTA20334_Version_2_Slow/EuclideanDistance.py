@@ -5,47 +5,47 @@ import numpy as np
 class EuclideanDistance:
     debug = False
     # The intervals that determine which hand sign has been detected.
-    aspectRatio_A_min = 2.04
-    aspectRatio_A_max = 2.27
-    aspectRatio_B_min = 1.42
-    aspectRatio_B_max = 1.50
+    aspectRatio_A_min = 1.017
+    aspectRatio_A_max = 1.230
+    aspectRatio_B_min = 1.5
+    aspectRatio_B_max = 1.95
     aspectRatio_C_min = 0.90
-    aspectRatio_C_max = 1.06
+    aspectRatio_C_max = 1.2
 
-    compactness_A_min = 73
-    compactness_A_max = 81
-    compactness_B_min = 80
-    compactness_B_max = 83
+    compactness_A_min = 62
+    compactness_A_max = 72
+    compactness_B_min = 62
+    compactness_B_max = 70
     compactness_C_min = 46
-    compactness_C_max = 48
+    compactness_C_max = 55
 
-    heightRelation_A_min = 0.80
-    heightRelation_A_max = 1.10
+    heightRelation_A_min = 0.70
+    heightRelation_A_max = 1.00
     heightRelation_B_min = 0.35
     heightRelation_B_max = 0.60
-    heightRelation_C_min = 1.00
-    heightRelation_C_max = 1.50
+    heightRelation_C_min = 0.80
+    heightRelation_C_max = 1.2
 
-    verticalRatio_A_min = 180
+    verticalRatio_A_min = 185
     verticalRatio_A_max = 230
     verticalRatio_B_min = 100
-    verticalRatio_B_max = 140
-    verticalRatio_C_min = 210
+    verticalRatio_B_max = 145
+    verticalRatio_C_min = 180
     verticalRatio_C_max = 250
 
     horizontalRatio_A_min = 240
     horizontalRatio_A_max = 310
-    horizontalRatio_B_min = 315
+    horizontalRatio_B_min = 370
     horizontalRatio_B_max = 480
     horizontalRatio_C_min = 160
-    horizontalRatio_C_max = 240
+    horizontalRatio_C_max = 270
 
-    localMaximum_A_min = 0.7
-    localMaximum_A_max = 1.1 # 1.2
+    localMaximum_A_min = 0.8
+    localMaximum_A_max = 1.1
     localMaximum_B_min = 1.1
-    localMaximum_B_max = 1.5
-    localMaximum_C_min = 1.6
-    localMaximum_C_max = 2.8
+    localMaximum_B_max = 1.25
+    localMaximum_C_min = 1.2
+    localMaximum_C_max = 1.8
 
     A_min = np.array((aspectRatio_A_min, compactness_A_min, heightRelation_A_min, verticalRatio_A_min,
                       horizontalRatio_A_min, localMaximum_A_min))
