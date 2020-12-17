@@ -102,6 +102,9 @@ class EuclideanDistance:
             for key, value in handsigns.items():
                 if minDistance == value:
                     print("The gesture is:", key)
+                    return key
         else:
             print("Neither A, B or C was detected.")
+            return "None"
         #print('-----------------------------------------------')
+

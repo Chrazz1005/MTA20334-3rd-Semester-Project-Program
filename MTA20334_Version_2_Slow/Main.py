@@ -11,6 +11,7 @@ def displayWebcam(mirror=False):
     iterations = 0
     t = Thresholding()
     cam = cv2.VideoCapture(0)
+    frameCount = 0
     while True:
         ret, img = cam.read()
         if mirror:
@@ -36,7 +37,7 @@ def displayWebcam(mirror=False):
 
             ph = ProjectionHistogram(croppedImage)
 
-            # cv2.imwrite("./DataSetPics/binary%d.jpg" % frameCount, grass)
+            cv2.imwrite("./Datasetslow/binary%d.jpg" % frameCount, croppedImage)
             ed = EuclideanDistance()
             key = ed.distance(ap.calculateAspectRatio(), cp.calculateCompactness(), ph.checkMaxHeightRelation(),
                               ph.checkVertSizeRatio(), ph.checkHoriSizeRatio(), ph.checkMaximumRelations())
@@ -61,7 +62,7 @@ def displayWebcam(mirror=False):
             dc.vsrColumnFnc()
             dc.hsrColumnFnc()
 
-            if iterations >= 30:
+            if iterations >= 29:
                 dc.startDataCollection()
                 dc.dataCollector()
                 dc.aspColumnFnc()
@@ -71,8 +72,10 @@ def displayWebcam(mirror=False):
                 dc.hitsColumn()
                 dc.missColumn()
                 dc.closeDocument()
+                print("Document was Saved! FUCK YES!!")
 
             iterations += 1
+            frameCount += 1
 
             cv2.imshow("Binarized Webcam", t.binarize(img))
             cv2.waitKey(0)
