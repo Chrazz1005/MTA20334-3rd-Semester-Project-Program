@@ -20,7 +20,7 @@ def meanFilter(img):  ##primitive 1D averaging filter
 
 
 def primitiveGauss(img):  # very primitive weighted averaging 1D
-    kernelG = [1 / 3, 2 / 3, 1 / 3]
+    kernelG = [1 , 2, 1]
     kernelSize = len(kernelG)
     kernelRadius = int(kernelSize / 2)
 
