@@ -61,7 +61,8 @@ def displayWebcam(mirror=False):
 
             if iterations >= 29:
                 dc.startDataCollection()
-                print("Document was Saved! FUCK YES!!")
+                print("Document was Saved!")
+                dc.closeDocument()
 
             iterations += 1
             frameCount += 1

@@ -7,9 +7,6 @@ class Thresholding:
     startTime = time.time()
     testImage = cv2.imread("Gesture_A/A10.jpg", cv2.IMREAD_COLOR)
 
-    # x, y = (image > limit).nonzero()
-    # vals = image[x, y]
-
     def splitImage(self, image):
         r, g, b = cv2.split(image)
         return r

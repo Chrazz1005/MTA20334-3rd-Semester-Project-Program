@@ -4,14 +4,10 @@ import cv2
 
 
 class ProjectionHistogram:
-    __localDebug = False
+    localDebug = False
 
     def __init__(self, img):
         self.img = img
-
-    # def splitImage(self):
-    #     r, g, b = cv2.split(self.img)
-    #     return r  # Since the image is "binary", being either 0 in all channels or 255, it doesn't matter which channel is returned
 
     def getHistogram_VProjection(self):  ### Gets a vertical projection of the white pixel distribution
         (hY, wY) = self.img.shape[:2]
@@ -24,7 +20,7 @@ class ProjectionHistogram:
 
             sumColsY.append(np.sum(colY))
 
-        if self.__localDebug:
+        if self.localDebug:
             print('Vertical distribution:', sumColsY)
             print('length vertical array:', len(sumColsY))
 
@@ -40,7 +36,7 @@ class ProjectionHistogram:
 
         return sumColsY
 
-    def getHistogram_HProjection(self):### Gets a horizontal projection of the white pixel distribution
+    def getHistogram_HProjection(self):  ### Gets a horizontal projection of the white pixel distribution
         (hX, wX) = self.img.shape[:2]
         sumColsX = []
 
@@ -48,7 +44,7 @@ class ProjectionHistogram:
             colX = self.img[0:hX, j:j + 1]  # Same as the vertical projection, but with the axis flipped.
 
             sumColsX.append(np.sum(colX))
-        if self.__localDebug:
+        if self.localDebug:
             print('Horizontal distribution:', sumColsX)
             print('length horizontal array:', len(sumColsX))
         x_axis = []
@@ -62,14 +58,6 @@ class ProjectionHistogram:
         # plt.show()
 
         return sumColsX
-
-    def trimZeros(self, list):  ##### Removing zeros from (empty space) from the data set
-        trimmedList = []
-        for i in range(0, len(list)):
-            if list[i] != 0:
-                trimmedList.append(list[i])
-
-        return trimmedList
 
     def checkMaxHeightRelation(self):
         horiProject = self.getHistogram_HProjection()
@@ -91,7 +79,7 @@ class ProjectionHistogram:
         maxHori = max(horiProject)
         sizeRatioHori = maxHori / lenHori
 
-        if self.__localDebug:
+        if self.localDebug:
             print('sizeRatioHori', sizeRatioHori)
         return sizeRatioHori
 
@@ -105,7 +93,7 @@ class ProjectionHistogram:
         maxVert = max(vertiProject)
         sizeRatioVert = maxVert / lenVert
 
-        if self.__localDebug:
+        if self.localDebug:
             print('sizeRatioVert', sizeRatioVert)
         return sizeRatioVert
 
@@ -138,18 +126,18 @@ class ProjectionHistogram:
         ### C range: 1.8 - 2.2
         ### A range: 0.8 - 1.1
         ### B range: 1.1 - 1.5
-        if self.__localDebug:
+        if self.localDebug:
             print('heighDiffRelation:', heightDiffRelation)
         return heightDiffRelation
 
 
 if __name__ == '__main__':
-    img = cv2.imread('./PicsEval/B6B.jpg')
+    img = cv2.imread('Datasetslow/binary4.jpg')
     PH = ProjectionHistogram(img)
-    if PH.__localDebug:
+    if PH.localDebug:
         print("maxHeightRelation:", PH.checkMaxHeightRelation())
     cv2.imshow('i', img)
-    if PH.__localDebug:
+    if PH.localDebug:
         print("Relation between maximums", PH.checkMaximumRelations())
     cv2.waitKey()
     cv2.destroyAllWindows()

@@ -1,6 +1,3 @@
-from BoundingBox import *
-
-
 class AspectRatio:
     handGesture = ""
 
