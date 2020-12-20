@@ -19,18 +19,6 @@ class Compactness:
         compactness = round((100 / area) * allWhitePixels)
         return compactness
 
-    def compactnessComparison(self):
-        if self.calculateCompactness() in range(80, 85):
-            handGesture = "A"
-        elif self.calculateCompactness() in range(75, 85):
-            handGesture = "B"
-        elif self.calculateCompactness() in range(45, 50):
-            handGesture = "C"
-        else:
-            handGesture = "Not Found"
-
-        return handGesture
-
     def printResults(self):
         print("| Compactness:", self.calculateCompactness(), "%")
         print("|------------------------------------------------")
